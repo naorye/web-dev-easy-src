@@ -2,8 +2,8 @@
 comments: true
 date: 2012-09-14 15:32:24
 layout: post
-slug: enhanced-usage-of-javascript-operators
-title: Enhanced usage of JavaScript && and || Operators
+slug: javascript-short-circuiting
+title: JavaScript Short Circuiting
 wordpress_id: 6
 categories:
 - JavaScript
@@ -12,16 +12,18 @@ tags:
 ---
 
 
+<!-- more -->
+
 Sometimes I need to use "if" statements just to be sure a variable is not "null":
 
-    
+``` javascript 
     var a = getObj();
     
     //if "a" is not zero, not "null" and also defined, then do something.
     if (a) { 
         doSomething();
     }
-
+```
 
 
 
@@ -31,7 +33,7 @@ Sometimes I need to use "if" statements just to be sure a variable is not "null"
 
 Other times I need to use "if"s in order to assign non-"null" value into a variable:
 
-    
+``` javascript  
     var a = getIdOrNull();
     var id = -1;
     
@@ -40,14 +42,8 @@ Other times I need to use "if"s in order to assign non-"null" value into a varia
     if (a) { 
         id = a;
     }
-
-
-
-
-
-
-
-
+```
+{% a _blank http://en.wikipedia.org/wiki/Short-circuit_evaluation short-circuiting %}
 It appears that there is a way to shorten and optimize this code using the && and || operators, and it called ["short-circuiting"](http://en.wikipedia.org/wiki/Short-circuit_evaluation). The idea behind this lays in the way the JavaScript enging works. For the && operator, expressions are executed until the first "false" value. For the || operator, expressions are executed until the first "true" value. Another thing that helps us here is the fact that "null" and "undefined" are treated as "false" and other than that are treated as "true" (except zero).
 
 
@@ -57,9 +53,9 @@ It appears that there is a way to shorten and optimize this code using the && an
 
 Finally, the first case can be written as:
 
-    
+``` javascript 
     a && doSomething();
-
+```
 
 This starts with "a" and if it's value is true (not zero, not "null" and also defined) the JS engine continues and executes doSomething().
 
@@ -71,9 +67,9 @@ This starts with "a" and if it's value is true (not zero, not "null" and also de
 
 The second case can be written as:
 
-    
+``` javascript 
     var id = a || -1;
-
+```
 
 This starts with "a" and if it is false (zero, "null" or "undefined") the JS engine continues and set "-1" into the id variable.
 

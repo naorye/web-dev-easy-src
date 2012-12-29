@@ -15,7 +15,11 @@ tags:
 ---
 
 
-If you are using Backbone, you probably noticed [Backbone.history.start();](http://backbonejs.org/#History-start) function. This command starts the monitoring on hashchange events, and dispatching routes. This function can get as option an indication whether you would like to use HTML5 pushState support:
+If you are using Backbone, you probably noticed [Backbone.history.start();](http://backbonejs.org/#History-start) function. This command starts the monitoring on hashchange events, and dispatching routes.
+
+<!-- more -->
+
+This function can get as option an indication whether you would like to use HTML5 pushState support:
 
     
     Backbone.history.start({pushState: true/false});

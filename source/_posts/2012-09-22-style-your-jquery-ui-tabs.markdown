@@ -21,7 +21,7 @@ This article will explain and guide you step by step how to style your jQuery-UI
 [Demo here](http://www.webdeveasy.com/demos/style-your-jquery-ui-tabs/style-tabs.htm).
 
 
-
+<!-- more -->
 
 
 

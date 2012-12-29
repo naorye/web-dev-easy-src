@@ -17,18 +17,20 @@ tags:
 Yesterday I got a new requirement for the application I am working on.
 I had several [jQuery UI autocompletes](http://jqueryui.com/demos/autocomplete) and I needed to add cascading functionality. This means that each autocomplete in the group affects the following autocomple's possible values. If there is no value selected in the first autocomplete - the next autocomplete must be disabled. When the user selects a value on the first autocomplete - the next autocomplete becomes enabled.
 
+<!-- more -->
+
 After searching the web I realized that the best option for me is to write my own jQuery plugin that manages the autocompletes cascading.
 The plugin gets as input a sequence of jQuery UI auocomplete elements and adds the cascading functionality. The idea under my plugin is to override each autocomplete's change and select events, and enable or disable the next autocomplete in the sequence according to the selected value.
 
 Here is the code:
 
-    
+``` javascript cascadingAutocompletes plugin
     (function($) {
         $.fn.extend({
             cascade: function(child) {
                 var parent = this;
                 var isChildActivate = true;
-    
+
                 function activateChild() {
                     child
                         .prop('disabled', false)
@@ -38,7 +40,7 @@ Here is the code:
                     }
                     isChildActivate = true;
                 }
-    
+
                 function deactivateChild() {
                     child
                         .prop('disabled', true)
@@ -49,7 +51,7 @@ Here is the code:
                     }
                     isChildActivate = false;
                 }
-    
+
                 function eventOverride(originalEvent) {
                     return function(event, ui) {
                         if (ui.item == null && isChildActivate) {
@@ -62,17 +64,17 @@ Here is the code:
                         }
                     };
                 }
-    
+
                 if (parent.autocomplete) {
                     var originalChange = parent.autocomplete('option', 'change');
                     var originalSelect = parent.autocomplete('option', 'select');
                     parent.autocomplete('option', 'change', eventOverride(originalChange));
-    
+
                     parent.autocomplete('option', 'select', eventOverride(originalSelect));
                 }
-    
+
                 deactivateChild();
-    
+
                 return parent;
             }
         });
@@ -88,14 +90,14 @@ Here is the code:
             }
         });
     })(jQuery);
-
+```
 
 
 Usage example:
 
-    
+``` javascript cascadingAutocompletes plugin usage
     $.cascadingAutocompletes(['#country', '#city', '#street']);
-
+```
 
 
 Hope this helps!

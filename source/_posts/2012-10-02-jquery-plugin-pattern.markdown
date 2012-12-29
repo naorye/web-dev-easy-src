@@ -15,6 +15,8 @@ tags:
 
 jQuery plugin is an extension to jQuery that encapsulates an ability or visual behaveiour so that it can be used later and in many different parts of your web application. This article will explain the basics of jQuery plugin and guide you how to create a simple jQuery plugin.
 
+<!-- more -->
+
 I distinguish between two types of of jQuery plugins:
 
 

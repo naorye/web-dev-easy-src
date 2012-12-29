@@ -18,6 +18,7 @@ tags:
 
 **Sometimes we need a model that will act like a singleton. Other times we want to reuse the type of that singleton. This article will present two different ways of creating a singleton using Backbone and RequieJS. While the first way is simpler and more intuitive, the second allows us more flexibility.**
 
+<!-- more -->
 
 
 ## Simple Singleton:

@@ -13,6 +13,9 @@ tags:
 ---
 
 Today I was informed about [Yeoman](http://www.yeoman.io) which is (according to Yeoman website) a new set of tools, libraries and workflows that can help developers to quickly build beautiful, compelling web. I decided to check this out.
+
+<!-- more -->
+
 Notice that Yeoman is working only under iOS and Linux, so if you are a Windows user I wholeheartedly recommend [Ubuntu](http://www.ubuntu.com/). In order to install Yeoman open Terminal and execute the following command:
 
     

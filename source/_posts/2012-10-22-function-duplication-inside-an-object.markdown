@@ -13,6 +13,8 @@ tags:
 - this
 ---
 
+<!-- more -->
+
 Assuming I have the following object:
 
     

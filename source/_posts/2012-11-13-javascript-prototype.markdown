@@ -10,9 +10,9 @@ categories:
 ---
 
 
-I bet you have seen the prototype keyword before. This prototype thing is very important to know and understand especially if you are want to be an expert web developers.
+I bet you have seen the prototype keyword before. This prototype thing is very important to know and understand especially if you want to be an expert web developers. This article will explain you about it.
 
-
+<!-- more -->
 
 
 
