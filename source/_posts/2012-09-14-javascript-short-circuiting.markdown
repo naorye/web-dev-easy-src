@@ -43,8 +43,7 @@ Other times I need to use "if"s in order to assign non-"null" value into a varia
         id = a;
     }
 ```
-{% a _blank http://en.wikipedia.org/wiki/Short-circuit_evaluation short-circuiting %}
-It appears that there is a way to shorten and optimize this code using the && and || operators, and it called ["short-circuiting"](http://en.wikipedia.org/wiki/Short-circuit_evaluation). The idea behind this lays in the way the JavaScript enging works. For the && operator, expressions are executed until the first "false" value. For the || operator, expressions are executed until the first "true" value. Another thing that helps us here is the fact that "null" and "undefined" are treated as "false" and other than that are treated as "true" (except zero).
+It appears that there is a way to shorten and optimize this code using the && and || operators, and it called ["short-circuiting"](http://en.wikipedia.org/wiki/Short-circuit_evaluation){: target="_blank" }. The idea behind this lays in the way the JavaScript enging works. For the && operator, expressions are executed until the first "false" value. For the || operator, expressions are executed until the first "true" value. Another thing that helps us here is the fact that "null" and "undefined" are treated as "false" and other than that are treated as "true" (except zero).
 
 
 
