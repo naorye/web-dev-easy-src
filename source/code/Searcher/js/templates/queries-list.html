@@ -1,11 +1,11 @@
 <h2>Queries history:</h2>
 <ul>
-	<% queries.each(function(model) { %>
+	<% _.each(queries, function(query) { %>
 		<li>
 			<a	href="javascript:void(0);"
-				data-source="<%= model.get('sourceId') %>"
-				data-term="<%= model.get('term') %>">
-				<%= model.get('sourceId') %> / <%= model.get('term') %>
+				data-source="<%= query.sourceId %>"
+				data-term="<%= query.term %>">
+				<%= query.sourceId %> / <%= query.term %>
 			</a>
 		</li>
 	<% }); %>

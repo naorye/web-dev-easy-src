@@ -24,7 +24,7 @@
 				success: _.bind(function(collection, response) {
 					this.$el.empty();
 					if (this.products.size() > 0) {
-						this.$el.append(this.template({products: this.products}));
+						this.$el.append(this.template({products: this.products.toJSON()}));
 					} else {
 						this.$el.text('No result found!');
 					}

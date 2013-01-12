@@ -6,12 +6,12 @@
 		</tr>
 	</thead>
 	<tbody>
-	<% products.each(function(product) { %>
+	<% _.each(products, function(product) { %>
 		<tr>
-			<td><img alt="" src="<%= product.get('thumbnail') %>" class="img-polaroid"/></td>
+			<td><img alt="" src="<%= product.thumbnail %>" class="img-polaroid"/></td>
 			<td>
-				<h4><a target="_blank" href="<%= product.get('link') %>"><%= product.get('title') %></a></h4>
-				<p><%= product.get('description') %></p>
+				<h4><a target="_blank" href="<%= product.link %>"><%= product.title %></a></h4>
+				<p><%= product.description %></p>
 			</td>
 		</tr>
 	<% }); %>

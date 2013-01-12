@@ -14,7 +14,6 @@
 			this.images = new ImagesCollection();
 		},
 		render: function(options) {
-			typeof options.beforeRender === 'function' && options.beforeRender();
 			this.images.fetch({
 				dataType:'jsonp',
 				data:{
@@ -24,16 +23,14 @@
 				success: _.bind(function(collection, response) {
 					this.$el.empty();
 					if (this.images.size() > 0) {
-						this.$el.append(this.template({images: this.images}));
+						this.$el.append(this.template({images: this.images.toJSON()}));
 						this.$('img').tooltipster();
 					} else {
 						this.$el.text('No result found!');
 					}
-					typeof options.afterRender === 'function' && options.afterRender();
 				}, this),
 				error: _.bind(function(collection, xhr, options) {
 					this.$el.text('Error get result!!');
-					typeof options.afterRender === 'function' && options.afterRender();
 				}, this)
 			});
 		}

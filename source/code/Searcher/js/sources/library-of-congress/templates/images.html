@@ -1,5 +1,6 @@
-<% images.each(function(image) { %>
-	﻿<div class="block-box spacious">
-		<img class="img-polaroid" alt="<%= image.get('alt') %>" src="<%= image.get('src') %>" title="<%= image.get('title') %>"/>
-	</div>
+<% _.each(images, function(image) { %>
+    ﻿<div class="block-box spacious">
+        <img class="img-polaroid" alt="<%= image.alt %>" src="<%= image.src %>"
+             title="<%= image.title %>"/>
+    </div>
 <% }); %>

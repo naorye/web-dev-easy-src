@@ -26,7 +26,7 @@
 		},
 		template: _.template(queriesListTemplate),
 		render: function() {
-			this.$el.html(this.template({'queries': this.queriesCollection}));
+			this.$el.html(this.template({'queries': this.queriesCollection.toJSON()}));
 		}
 	});
 	return HistoryView;
