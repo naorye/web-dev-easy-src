@@ -16,8 +16,8 @@ tags:
 ---
 
 
-This article will explain and guide you step by step how to style your jQuery-UI tabs and make them look like this:
-![](http://www.webdeveasy.com/wp-content/uploads/2012/09/style-your-jquery-ui-tabs-sample.png)
+This article will explain and guide you step by step how to style your jQuery-UI tabs and make them look like this:   
+![](http://www.webdeveasy.com/wp-content/uploads/2012/09/style-your-jquery-ui-tabs-sample.png)   
 [Demo here](http://www.webdeveasy.com/demos/style-your-jquery-ui-tabs/style-tabs.htm).
 
 
