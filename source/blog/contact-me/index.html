@@ -16,9 +16,8 @@ footer: false
 </p>
 <p>
     Or you can message me here:
-    <form action="http://getsimpleform.com/messages?form_api_token=6f026e61a96c3a6d63342b09d67902de" method="post">
-        <input type="hidden" name="redirect_to" value="{{ root_url }}/blog/after-contact/" />
-        <table class="contact-me-form">
+    <form class="contact-me-form">
+        <table>
             <tr>
                 <td>Name: </td>
                 <td><input type="text" name="name" /></td>
@@ -33,7 +32,7 @@ footer: false
             </tr>
             <tr>
                 <td></td>
-                <td><input type="submit" value="Send" /></td>
+                <td><input type="submit" value="Send"/></td>
             </tr>
         </table>
     </form>
@@ -43,3 +42,7 @@ footer: false
     src="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=Jerusalem,+Israel&aq=0&oq=Jerusalem&sll=37.0625,-95.677068&sspn=42.03917,67.763672&ie=UTF8&hq=&hnear=Jerusalem,+Israel&t=m&ll=31.944005,35.005188&spn=0.675888,0.832214&z=10&output=embed">
 </iframe>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript"> jQuery.noConflict(); </script>
+<script src="{{ root_url }}/javascripts/plugins/mini-notifier.js" type="text/javascript"></script>
+<script src="{{ root_url }}/javascripts/blog/contact-me.js" type="text/javascript"></script>
