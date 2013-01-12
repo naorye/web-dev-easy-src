@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../assets/css/jquery-ui.css" type="text/css"/>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+        <script type="text/javascript" src="../assets/js/libs/jquery.min.js"></script>
+        <script type="text/javascript" src="../assets/js/plugins/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="jquery.cascading-autocompletes.js"></script>
+    </head>
+    <body>
+        <label for="country">Country: </label> 
+        <input id="country" />
+        (Type "a", "r", "g", "e", "n", "t", "i", "n", "v", "z", "u", "l", "s", "c" or "h")
+        <br/>
+        <label for="city">City: </label>
+        <input id="city" />
+        (Type "c")
+        <br/>
+        <label for="street">Street: </label>
+        <input id="street" />
+        (Type "s")
+        <script type="text/javascript">
+            $(function() {
+                $("#country").autocomplete({
+                    source: [
+                        "Argentine",
+                        "Venezuela",
+                        "Italia",
+                        "Russia",
+                        "China",
+                        "Australia"
+                    ]
+                });
+                $("#city").autocomplete({
+                    source: function(request, response) {
+                        var country = $("#country").val(),
+                            cities = [
+                                "City 1, " + country,
+                                "City 2, " + country,
+                                "City 3, " + country,
+                                "City 4, " + country
+                            ];
+                        var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term ), "i" );
+                        response($.grep(cities, function(value) {
+                            return matcher.test(value);
+                        }));
+                    }
+                });
+                $("#street").autocomplete({
+                    source: function(request, response) {
+                        var city = $("#city").val(),
+                            streets = [
+                                "Street 1, " + city,
+                                "Street 1, " + city,
+                                "Street 1, " + city,
+                                "Street 1, " + city
+                            ];
+                        var matcher = new RegExp($.ui.autocomplete.escapeRegex( request.term ), "i" );
+                        response($.grep(streets, function(value) {
+                            return matcher.test(value);
+                        }));
+                    }
+                });
+
+                $.cascadingAutocompletes(["#country", "#city", "#street"]);
+            });
+        </script>
+    </body>
+</html>
