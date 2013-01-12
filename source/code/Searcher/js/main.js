@@ -1,10 +1,10 @@
 ﻿require.config({
 	paths: {
-		jQuery: 'libs/jquery-1.8.2.min',
-		Underscore: 'libs/underscore-min',
-		Backbone: 'libs/backbone',
-		tooltipster: 'libs/jquery-plugins/jquery.tooltipster',
-		text: 'libs/text'
+		jQuery: '../../assets/js/libs/jquery.min',
+		Underscore: '../../assets/js/libs/underscore-min',
+		Backbone: '../../assets/js/libs/backbone',
+		tooltipster: '../../assets/js/plugins/jquery.tooltipster',
+		text: '../../assets/js/libs/text'
 	},
 	shim: {
 		'jQuery': {
