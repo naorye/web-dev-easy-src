@@ -1,8 +1,9 @@
 ---
+published: false
 layout: post
 slug: searcher-backbone-application-demonstration
 title: Searcher - Backbone application demonstration
-date: 2012-12-24 19:03
+date: 2013-01-12 19:03
 comments: true
 categories:
 - Backbone.js
@@ -15,7 +16,7 @@ tags:
 
 In this article we will build Backbone.js application along with jQuery, underscore.js and require.js. The aim of this article is to demonstrate the use of Backbone components. As we all probably know, there are more then one way to build Backbone applications so feel comfortable to adopt what you like.   
 At the end of this article we will have Backbone searcher application which will know to make searches using different search providers. You can see our final application in action [here](http://www.missing.com) and can browse and download the code [here](http://www.missing.com).
-
+<!-- more -->
 
 Application Loading Flow
 ========================
@@ -26,8 +27,8 @@ Let's begin with our application loading flow. After typing the url, the browser
 
 {% include_code lang:html index.html Searcher/index.html %}
 
-The index.html file contains the layout of our application which include placeholders for the search buttons, the history section and the search results area. It also includes reference to css file and reference to the require.js script.
-When the browser loads this html file, somewhere in the road it loads the require.js script. Look closely and you'll notice that require.js script tag has additional attribute called "data-main". This attribute tells require.js to load js/main.js after require.js loads.
+The index.html file contains the layout of our application which include placeholders for the search section, the history section and the search results area. It also includes reference to css file and reference to the require.js script.
+When the browser loads this html file, right after loading style.css, the browser loads the require.js script. Look closely and you'll notice that require.js script tag has additional attribute called "data-main". This attribute tells require.js to load js/main.js after require.js loads.
 
 js/main.js
 ----------
@@ -38,35 +39,35 @@ This file contains two sections:
 
 {% include_code lang:javascript js/main.js Searcher/js/main.js %}
 
-require.js configuration allows us to map modules paths to modules names. For example, jQuery.js file is located in "libs/jquery-1.8.2.min". Whenever we wish mark jQuery as a dependency, we will have to write this long path. Since jQuery is basic module and we probably use it a lot, it is better to map its path.
-require.js knows to work with AMD (***********) modules. The AMD structure tells require.js what are the dependencies and which object to return. The purpose of the shim configuration is to tell require.js for each un-AMD module what is its dependencies and which object to return.
-After the configuration we ask require.js to load a set of script relevant to initialization and after that execute the initialization function. This function gets as parameters the AMD modules that require.js required to resolve and do the following initialization:
-
-1. Initializes the router and Backbone.history, and initializes app.
-2. Initializes the main views of the application - SearchView and HistoryView.
-3. Creates two new search sources. For each source it is necessary to know it's name, id (for internal purposes) and it's main view.
-4. Creates sourceManager that knows manage search sources (we will discuss about it later) and adds the two search sources.
-5. Adds the two search sources to the search view.
-
-At this point, the application loading flow is over and now the application waits for user interaction.
-In order to understand completely how everything bonds together and works, we must understand the application features and components.
-
-Application Features and Components
-===================================
-
-First, we will see what app.js and router.js responsible for and then we review the searching, sources and the history features.
+require.js configuration allows us to map modules paths to names. For example, jQuery.js file is located in "libs/jquery-1.8.2.min". Whenever we wish mark jQuery as a dependency, we will have to write this long path. Since jQuery is basic module and we probably use it a lot, it is better to map its path.   
+require.js works with [AMD modules](http://requirejs.org/docs/whyamd.html). The AMD structure tells require.js what are the dependencies and which object to return. The purpose of the shim configuration is to tell require.js for each un-AMD module what is its dependencies and which object to return.   
+After the configurations done, we ask require.js to load Backbone, router.js and app.js, and after that execute the initialization function. This function gets as parameters the AMD modules that require.js required to resolve and initializes the router, initializes the app and starts Backbone.history.
 
 app.js
 ------
 {% include_code lang:javascript js/app.js Searcher/js/app.js %}
 
-On initialization, app.js keeps reference of the router and initializes instance of QueryModel. This appQuery instance acts as a singleton and every time it changes the router changes the url to "search/<sourceId>/<term>" without trigger a route event.
+Lets see what app.js initialization function does:
+
+* Keeps reference of the router and initializes instance of QueryModel. This appQuery instance acts as a singleton and every time it changes, the router changes the url to "search/&lt;sourceId&gt;/&lt;term&gt;" (without trigger a route event).
+* Initializes the main views of the application - SearchView and HistoryView.
+* Creates two new search sources. For each source it is necessary to know it's name, id (for internal purposes) and it's main view. Later we will discuss on the sources feature.
+* Creates sourceManager that knows manage search sources (we will discuss on it later also) and adds to it the two search sources.
+* Adds the two search sources to the search view.
+
+At this point, the application loading flow is over and now the application waits for user interaction.
+In order to understand completely how everything bonds together and works, we must understand the application features and components.
 
 router.js
 ---------
 {% include_code lang:javascript js/router.js Searcher/js/router.js %}
 
-The router depends on app.js. Whenever a route in form "search/<sourceId>/<term>" is entered to the url, the router trigger the searchImages() method which changes the appQuery singleton.
+The router depends on app.js. Whenever a route in form "search/&lt;sourceId&gt;/&lt;term&gt;" is entered to the url, the router trigger the searchImages() method which changes the appQuery singleton.
+
+Application Features and Components
+===================================
+
+Now it is time to review the searching, sources and the history features.
 
 Searching
 ---------
