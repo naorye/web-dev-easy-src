@@ -15,7 +15,7 @@ tags:
 ---
 
 Yesterday I got a new requirement for the application I am working on.
-I had several [jQuery UI autocompletes](http://jqueryui.com/demos/autocomplete) and I needed to add cascading functionality. This means that each autocomplete in the group affects the following autocomple's possible values. If there is no value selected in the first autocomplete - the next autocomplete must be disabled. When the user selects a value on the first autocomplete - the next autocomplete becomes enabled.
+I had several <a href="http://jqueryui.com/demos/autocomplete" target="_blank">jQuery UI autocompletes</a> and I needed to add cascading functionality. This means that each autocomplete in the group affects the following autocomple's possible values. If there is no value selected in the first autocomplete - the next autocomplete must be disabled. When the user selects a value on the first autocomplete - the next autocomplete becomes enabled.
 <!-- more -->
 
 After searching the web I realized that the best option for me is to write my own jQuery plugin that manages the autocompletes cascading.
@@ -30,6 +30,6 @@ Usage example:
     $.cascadingAutocompletes(["#country", "#city", "#street"]);
 ```
 
-[Demo Here]({{ root_url }}/code/cascading-autocompletes-plugin/index.html).
+<a href="{{ root_url }}/code/cascading-autocompletes-plugin/index.html" target="_blank">Demo Here</a>.
 
 Hope this helps!
