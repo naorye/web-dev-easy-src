@@ -5,6 +5,9 @@ article {
   ol, ul {
     padding-left: 3em;
   }
+  > footer {
+    padding-bottom: 0;
+  }
 }
 
 // About me page
