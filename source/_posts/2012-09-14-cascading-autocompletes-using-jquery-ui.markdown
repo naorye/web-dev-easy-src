@@ -29,7 +29,9 @@ Usage example:
 ``` javascript Cascading Autocompletes plugin Usage
     $.cascadingAutocompletes(["#country", "#city", "#street"]);
 ```
-
-<a href="{{ root_url }}/code/cascading-autocompletes-plugin/index.html" target="_blank">Demo Here</a>.
+Demo & Download
+---------------
+* <a href="{{ root_url }}/code/cascading-autocompletes-plugin/index.html" target="_blank">Demo Here</a>.
+* <a href="{{ root_url }}/code/cascading-autocompletes-plugin/cascading-autocompletes-plugin.zip" target="_blank">Download code here</a>.
 
 Hope this helps!

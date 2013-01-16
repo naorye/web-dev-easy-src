@@ -147,4 +147,9 @@ Complete Markup
 
 {% include_code lang:css Tabs Style style-your-jquery-ui-tabs/style-tabs.html %}
 
+Demo & Download
+---------------
+* You can find a demo on the top of this article.
+* <a href="../code/style-your-jquery-ui-tabs/style-your-jquery-ui-tabs.zip" target="_blank">You can download the code here</a>.
+
 That's all! have fun and don't hesitate to leave your comment!

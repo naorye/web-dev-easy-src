@@ -1,0 +1,52 @@
+﻿<!doctype html>
+<html>
+	<head> 
+		<title>jQuery Plugins</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript">
+			(function($) {
+				$.fn.myPlugin = function(text) {
+					// Here <i>this</i> is a reference to the actaul jQuery
+					// element the plugin works on.
+					this.each(function() {
+						var current = $(this);
+						var elemType = current.prop('tagName').toLowerCase();
+						switch(elemType)  {
+							case 'input':
+								current.val(text);
+								break;
+							case 'select':
+								current.empty().append('<option>' + text + '</option>');
+								break;
+							case 'span':
+								current.text(text);
+								break;
+						}
+
+					});
+				};
+			})(jQuery);
+		</script>
+	</head>
+	<body>
+		<p>
+			Choose text: <input type="text" id="my-text" />
+			<button id="my-button">Press here</button>
+		</p>
+		<p>
+			Span: <span class="target"></span> <br/>
+			Text input: <input type="text" class="target" /> <br/>
+			Select: <select class="target"></select>
+		</p>
+
+		<script type="text/javascript">
+			$(function() {
+				$('#my-button').click(function() {
+					var text = $('#my-text').val();
+					$('.target').myPlugin(text);
+				});
+			});
+		</script>
+	</body>
+</html>
+

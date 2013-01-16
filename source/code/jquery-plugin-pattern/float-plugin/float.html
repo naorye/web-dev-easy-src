@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<html>
+	<head> 
+		<title>jQuery Plugins - float example</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript" src="float.js"></script>
+	</head>
+	<body>
+		float remote control:
+		<input type="text" value="Hello!" id="message" />
+		<button id="show-float">Show float</button>
+		<br/>
+		<input type="text" value="100px" id="float-posx" />
+		<input type="text" value="100px" id="float-posy" />
+		<button id="change-float">Change float</button>
+		<button id="remove-float">Remove float</button>
+		
+		<script type="text/javascript">
+			$(function() {
+				var floatControl = null;
+				$('#show-float').click(function() {
+					floatControl = $.float('100px', '100px', $('#message').val());										
+				});
+				$('#remove-float').click(function() {
+					if (floatControl!=null) {
+						floatControl.remove();
+						floatControl=null;
+					} else { alert('Show float first!'); }
+				});
+				$('#change-float').click(function() {
+					if (floatControl!=null) {
+						var posx=$('#float-posx').val();
+						var posy=$('#float-posy').val();
+						floatControl.changePosition(posx, posy);
+					} else { alert('Show float first!'); }
+				});
+			});
+		</script>
+	</body>
+</html>

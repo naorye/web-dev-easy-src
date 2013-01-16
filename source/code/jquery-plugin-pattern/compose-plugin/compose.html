@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html>
+	<head> 
+		<title>jQuery Plugins</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript" src="compose.js"></script>
+	</head>
+	<body>
+		Number: <input type="text" id="compose-number" />
+		<br/>
+		Input: <input type="text" id="compose-input" />
+		<br/>
+		<ul id="compose-ul" />
+		
+		<script type="text/javascript">
+			$(function() {
+				$('#compose-input').compose({
+					ul: '#compose-ul',
+					times: 8
+				});
+				$('#compose-number').change(function() {
+					var number = parseInt($(this).val());
+					if (!isNaN(number)) {
+						$('#compose-input').data('compose').setNumber(number);
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
+
