@@ -18,10 +18,9 @@ At the end of this article we will have Backbone searcher application which will
 <!-- more -->
 
 Application Loading Flow
-========================
+------------------------
 
-index.html
-----------
+### index.html ###
 Let's begin with our application loading flow. After typing the url, the browser starts loading the index.html file:
 
 {% include_code lang:html index.html searcher/index.html %}
@@ -29,8 +28,7 @@ Let's begin with our application loading flow. After typing the url, the browser
 The index.html file contains the layout of our application which include placeholders for the search section, the history section and the search results area. It also includes reference to css file and reference to the require.js script.
 When the browser loads this html file, right after loading style.css, the browser loads the require.js script. Look closely and you'll notice that require.js script tag has additional attribute called "data-main". This attribute tells require.js to load js/main.js after require.js loads.
 
-js/main.js
-----------
+### js/main.js ###
 This file contains two sections:
 
 * Configuration section that configure the require.js paths and modules.
@@ -42,8 +40,7 @@ require.js configuration allows us to map modules paths to names. For example, j
 require.js works with <a href="http://requirejs.org/docs/whyamd.html" target="_blank">AMD modules</a>. The AMD structure tells require.js what are the dependencies and which object to return. The purpose of the shim configuration is to tell require.js for each un-AMD module what is its dependencies and which object to return.   
 After the configurations done, we ask require.js to load Backbone, router.js and app.js, and after that execute the initialization function. This function gets as parameters the AMD modules that require.js required to resolve and initializes the router, initializes the app and starts Backbone.history.
 
-app.js
-------
+### app.js ###
 {% include_code lang:javascript js/app.js searcher/js/app.js %}
 
 Lets see what app.js initialization function does:
@@ -57,19 +54,17 @@ Lets see what app.js initialization function does:
 At this point, the application loading flow is over and now the application waits for user interaction.
 In order to understand completely how everything bonds together and works, we must understand the application features and components.
 
-router.js
----------
+### router.js ###
 {% include_code lang:javascript js/router.js searcher/js/router.js %}
 
 The router depends on app.js. Whenever a route in form "search/&lt;sourceId&gt;/&lt;term&gt;" is entered to the url, the router trigger the searchImages() method which changes the appQuery singleton.
 
 Application Features and Components
-===================================
+-----------------------------------
 
 Now it is time to review the searching, sources and the history features.
 
-Searching
----------
+### Searching ###
 The main purpose of the application is to allow searching. The application makes searches among different search providers, therefore the input it gets from the user contains a search term and a search provider. So, we need a model to store this information. Actually, a single instance of this model will serve us during the entire use of the application. Each time the user makes a different search (change the search term or provider), the model instance changes. Later, those model changes will trigger the search.
 
 {% include_code lang:javascript js/models/query.js searcher/js/models/query.js %}
@@ -82,8 +77,7 @@ SearchView view creates the inputs and adds the behavior of the searching proces
 
 SearchView renders itself on initialization, and every time appQuery changes it updates the input values. On render, the view draws itself using <a href="http://www.underscore.com/#template" target="_blank">underscore templates</a> and initializes the inputs according to the appQuery. Whenever the user clicks on the search button, the view set appQuery with the new values which causing the url to change (as we saw in app.js). Notice that SearchView uses the text plugin of require.js in order to load templates/search.html. In addition, the compiled version of templates are stored in searchTemplate and in optionTemplate in order to save compilations. SearchView contains the addSource() method which gets sourceModel instance as parameter (we will see it later) and adds the new source to the sources select list.
 
-Sources
--------
+### Sources ###
 As I mentioned before, the application makes searches among different search providers. The sources mechanism is responsible for defining search providers, their models and their views. This feature includes the SourcesManager view which acts as a bridge and responsible for rendering the relevant search results according to appQuery.
 
 {% include_code lang:javascript js/sources/sources-manager.js searcher/js/sources/sources-manager.js %}
@@ -112,7 +106,7 @@ appQuery is the SourcesManager model and the search results are rendered inside 
 
 {% include_code lang:javascript js/models/source.js searcher/js/models/source.js %}
 
-### Google Shopping search provider ###
+#### Google Shopping search provider ####
 Let's explore the Google Shopping search provider. It's files located under js/sources/google-search-api-for-shopping and it consist of ProductModel, ProductsCollection, products template and it's main view called ListView.
 
 {% include_code lang:javascript js/sources/google-search-api-for-shopping/models/product.js searcher/js/sources/google-search-api-for-shopping/models/product.js %}
@@ -133,8 +127,7 @@ Search providers can contain many views. When defining the search provider in So
 ListView initializes ProductsCollection and on render fetch it and append the results to el. In case of an error or empty results, a relevant text message appears. Behind the scenes, the fetch method uses the jQuery.ajax function and the data option is passed to it. The data option contains needed properties for the Google Shopping api. Keep in mind that in your application you will need to use yours Google api key.
 Now, whenever the user chooses Google Shopping as a search provider, SourcesManager initializes ListView which fetches the results and display them inside ".content" element.
 
-History
--------
+### History ###
 Another feature of this application is history. The application stores queries history and enables us to make searches from history. In order to store the queries history we need a collection of QueryModel:
 
 {% include_code lang:javascript js/collections/queries.js searcher/js/collections/queries.js %}
