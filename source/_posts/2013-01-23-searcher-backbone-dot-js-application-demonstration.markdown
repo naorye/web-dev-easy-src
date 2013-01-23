@@ -39,7 +39,7 @@ This file contains two sections:
 {% include_code lang:javascript js/main.js Searcher/js/main.js %}
 
 require.js configuration allows us to map modules paths to names. For example, jQuery.js file is located in "libs/jquery-1.8.2.min". Whenever we wish mark jQuery as a dependency, we will have to write this long path. Since jQuery is basic module and we probably use it a lot, it is better to map its path.   
-require.js works with [AMD modules](http://requirejs.org/docs/whyamd.html). The AMD structure tells require.js what are the dependencies and which object to return. The purpose of the shim configuration is to tell require.js for each un-AMD module what is its dependencies and which object to return.   
+require.js works with <a href="http://requirejs.org/docs/whyamd.html" target="_blank">AMD modules</a>. The AMD structure tells require.js what are the dependencies and which object to return. The purpose of the shim configuration is to tell require.js for each un-AMD module what is its dependencies and which object to return.   
 After the configurations done, we ask require.js to load Backbone, router.js and app.js, and after that execute the initialization function. This function gets as parameters the AMD modules that require.js required to resolve and initializes the router, initializes the app and starts Backbone.history.
 
 app.js
@@ -80,13 +80,13 @@ SearchView view creates the inputs and adds the behavior of the searching proces
 
 {% include_code lang:javascript js/views/search.js searcher/js/views/search.js %}
 
-SearchView renders itself on initialization, and every time appQuery changes it updates the input values. On render, the view draws itself using (underscore templates)["www.underscore.com/#template"] and initializes the inputs according to the appQuery. Whenever the user clicks on the search button, the view set appQuery with the new values which causing the url to change (as we saw in app.js). Notice that SearchView uses the text plugin of require.js in order to load templates/search.html. In addition, the compiled version of templates are stored in searchTemplate and in optionTemplate in order to save compilations. SearchView contains the addSource() method which gets sourceModel instance as parameter (we will see it later) and adds the new source to the sources select list.
+SearchView renders itself on initialization, and every time appQuery changes it updates the input values. On render, the view draws itself using <a href="http://www.underscore.com/#template" target="_blank">underscore templates</a> and initializes the inputs according to the appQuery. Whenever the user clicks on the search button, the view set appQuery with the new values which causing the url to change (as we saw in app.js). Notice that SearchView uses the text plugin of require.js in order to load templates/search.html. In addition, the compiled version of templates are stored in searchTemplate and in optionTemplate in order to save compilations. SearchView contains the addSource() method which gets sourceModel instance as parameter (we will see it later) and adds the new source to the sources select list.
 
 Sources
 -------
 As I mentioned before, the application makes searches among different search providers. The sources mechanism is responsible for defining search providers, their models and their views. This feature includes the SourcesManager view which acts as a bridge and responsible for rendering the relevant search results according to appQuery.
 
-{% include_code lang:javascript js/sources/source-manager.js searcher/js/sources/source-manager.js %}
+{% include_code lang:javascript js/sources/sources-manager.js searcher/js/sources/sources-manager.js %}
 
 When initialized with appQuery as model, SourcesManager renders itself on appQuery change. SourceManager has the ability to add sources using the addSource() function or using the initialization "sources" option. When it renders, it resolves the search provider's view according to appQuery and renders it.
 SourceManager initialization occurs inside the application initialization:
