@@ -58,9 +58,6 @@ In order to cache fetching results of a model, we need to know the key of the ca
 Lets create Backbone.CachedModel and override it's fetch method. Backbone.CachedCollection's new fetch is pretty much the same.
 
 ```javascript Backbone.Model fetch override
-// store the original fetch for use in our fetch-cache method
-var originalFetch = Backbone.Model.prototype.fetch;
-
 Backbone.CachedModel = Backbone.Model.extend({
     fetch: function(options) {
         // If the model has required info for cache
