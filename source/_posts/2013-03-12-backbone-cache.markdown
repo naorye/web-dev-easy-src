@@ -15,7 +15,7 @@ tags:
 Caching collections and models in Backbone allows to save server calls and return the result faster to the user. This means happier server and happier users. This article will guide you how to implement Backbone caching.
 <!-- more -->
 
-In order to support caching in Backbone, first, I've created a Cache class that has the basic cache behavior and knows to cache key-value items. Then, I override the Backbone.Model's and Backbone.Collection's fetch method so it will search the cache before fetching from the server. 
+In order to support caching in Backbone, first, I've created a Cache class that has the basic cache behavior and knows to cache key-value items. Then, I've created Backbone.CachedModel and Backbone.CachedCollection classes and override their fetch method so it will search the cache before fetching from the server. 
 
 Cache Class
 -----------
@@ -54,46 +54,48 @@ Each Cache instance holds an object that stored the data, and its methods manage
 
 Fetch Cache
 -----------
-In order to cache fetching results of a model, we need to know the key of the cache item and the cache object instance in which the item stored in. Therefore, each model or collection that needs caching has to define two properties: cacheKey and cacheObject. Defining those properties indicates that this model or collection should be cached on fetch and for later use.
-Lets override Backbone.Model's fetch. The override of Backbone.Collection's fetch is pretty much the same.
+In order to cache fetching results of a model, we need to know the key of the cache item and the cache object instance in which the item stored in. Therefore, each model or collection that needs caching has to define two properties: cacheKey and cacheObject.
+Lets create Backbone.CachedModel and override it's fetch method. Backbone.CachedCollection's new fetch is pretty much the same.
 
 ```javascript Backbone.Model fetch override
 // store the original fetch for use in our fetch-cache method
 var originalFetch = Backbone.Model.prototype.fetch;
 
-Backbone.Model.prototype.fetch = function(options) {
-    // If the model should use cache
-    if (this.cacheKey && this.cacheObject) {
-        options = options || {};
-        var cacheObject = this.cacheObject,
-            cacheKey = this.cacheKey,
-            success = options.success;
+Backbone.CachedModel = Backbone.Model.extend({
+    fetch: function(options) {
+        // If the model has required info for cache
+        if (this.cacheKey && this.cacheObject) {
+            options = options || {};
+            var cacheObject = this.cacheObject,
+                cacheKey = this.cacheKey,
+                success = options.success;
 
-        // Checking whether the cache object already holds the required data
-        if (cacheObject.has(cacheKey)) {
-            var resp = cacheObject.get(cacheKey);
+            // Checking whether the cache object already holds the required data
+            if (cacheObject.has(cacheKey)) {
+                var resp = cacheObject.get(cacheKey);
 
-            // Do the same as the fetch method does when the data received
-            this.set(this.parse(resp, options), options);
-            if (success) success(this, resp, options);
+                // Do the same as the fetch method does when the data received
+                this.set(this.parse(resp, options), options);
+                if (success) success(this, resp, options);
 
-            // Returns deferred as the original fetch
-            return $.Deferred().resolve();
+                // Returns deferred as the original fetch
+                return $.Deferred().resolve();
+            } else {
+                // The cache object doesn't hold the required data
+                // Preparing success method that set the cache 
+                options.success = function(entity, resp, options) {
+                    cacheObject.set(cacheKey, resp);
+                    if (success) success(entity, resp, options);
+                };
+                // Calling the original fetch
+                return Backbone.Model.prototype.fetch.call(this, options);
+            }
         } else {
-            // The cache object doesn't hold the required data
-            // Preparing success method that set the cache 
-            options.success = function(entity, resp, options) {
-                cacheObject.set(cacheKey, resp);
-                if (success) success(entity, resp, options);
-            };
-            // Calling the original fetch
-            return originalModelFetch.call(this, options);
+            // No cache for this model, calling the original fetch
+            return Backbone.Model.prototype.fetch.call(this, options);
         }
-    } else {
-        // No cache for this model, calling the original fetch
-        return originalModelFetch.call(this, options);
     }
-};
+});
 ```
 That's all! now, each model or collection that has cacheKey and cacheObject properties now cached.
 
@@ -108,7 +110,7 @@ app.globalCache = new Backbone.Cache();
 Next, define the model and set cacheKey and cacheObject. In this example app.globalCache is used to cache the fetch results. Also, the results will be cached with the key "UserPermissions_X" (X is the user id). 
 
 ```javascript Define UserPermissions model
-var UserPermissions = Backbone.Model.extend({
+var UserPermissions = Backbone.CachedModel.extend({
     cacheObject: app.globalCache,
     initialize: function() {
         var userId = this.get('id');
