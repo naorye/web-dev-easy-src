@@ -1,0 +1,21 @@
+* + table {
+    border: 1px solid #CECECE;
+    margin-bottom: 1.5em;
+}
+ 
+* + table th, * + table td {
+    border: 1px solid #CECECE;
+    padding: 8px 15px;
+    vertical-align: top;
+}
+
+* + table td {
+    text-align: left;
+}
+ 
+* + table th {
+    border-style: solid;
+    font-weight: bold;
+    background: url("/images/noise.png") repeat scroll left top #F7F3F7;
+    text-align: center;
+}
