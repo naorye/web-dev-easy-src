@@ -17,6 +17,7 @@ tags:
 ---
 
 This article will demonstrate you how to concatenate and minify projects that are based on RequireJS. In this article I'll use several tools that require Node.js. So, if you don't have Node.js yet, install it <a target="_blank" href="http://nodejs.org/">here</a>.
+<!-- more -->
 
 Motivation
 ----------
