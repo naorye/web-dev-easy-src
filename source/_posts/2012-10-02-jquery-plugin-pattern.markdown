@@ -17,7 +17,7 @@ jQuery plugin is an extension to jQuery that encapsulates an ability or visual b
 <!-- more -->
 
 Two jQuery Plugin Types
--------------------
+-----------------------
 I distinguish between two types of of jQuery plugins:
 
 **Plugin that works on element.** For example, a plugin that converts &lt;select&gt; element to an autocomplete. Such plugin is working on the select element. This kind of plugin is actually extention to the jQuery prototype (or $.fn):
