@@ -9,11 +9,11 @@ body {
     display: inline-block;
 }
 
-.example:nth-child(1) {
+.example.mouse {
     margin-right: 30px;  
 }
 
-.example:nth-child(2) {
+.example.touch {
     margin-left: 30px; 
 }
 
@@ -84,5 +84,8 @@ body {
 @media only screen and (max-width: 670px) {
     .example.mouse {
         display: none;
+    }
+    .example.touch {
+        margin-left: 0;
     }
 }
