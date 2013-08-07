@@ -15,7 +15,7 @@ tags:
 ---
 
 In this article I will show you how to build a pages slider that looks like those on our smartphones. At the end we will get this:
-<iframe src="../code/pages-slider-with-javascript-and-css/index.html#touch" width="100%" height="122px"></iframe>
+<iframe src="../code/pages-slider-with-javascript-and-css/index.html#touch" width="100%" height="122px" scrolling="no"></iframe>
 <!-- more -->
 
 Slider Markup Structure
