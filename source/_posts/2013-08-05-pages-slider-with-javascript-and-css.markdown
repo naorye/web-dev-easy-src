@@ -20,11 +20,11 @@ In this article I will show you how to build a pages slider that looks like thos
 
 Slider Markup Structure
 -----------------------
-Our slider consist of div contained in another div. The parent div has limited width with overflow hidden where the child div contains the pages and therefore has their total width. This way only one page is visible and in order to move between pages all we have to do is change the child div's position relative to its parent. Important thing to mention is that we won't really change the child div's position property but will use CSS transform property to simulate this. Here is a sketch of the slider markup structure:
+Our slider consist of div contained in another div. The parent div has limited width with overflow set to "hidden". The child div contains the pages and therefore has their total width. This way only one page is visible and in order to move between pages all we have to do is change the child div's position relative to its parent. Important thing to mention is that we won't really change the child div's position property but will use CSS transform property to simulate this. Here is a sketch of the slider markup structure:
 
 {% img center /code/pages-slider-with-javascript-and-css/images/markup.png 'Slider Markup Structure' %}   
 
-According to this plan, lets write a markup for four pages with relevant CSS properties:
+According to this plan, let's write a markup for four pages with relevant CSS properties:
 ```html Pages slider plugin markup
 <div class="slider">
 	<div class="content">
@@ -40,7 +40,7 @@ According to this plan, lets write a markup for four pages with relevant CSS pro
 .slider .content { position: relative; }
 .slider .content .page { float: left; }
 ```
-This CSS is mandatory in order to give our slider the correct appearance. In addition, we have to style the pages. Their style is not mandatory for the plugin behavior and its only purpose is to make the pages look nice. 
+This CSS is mandatory in order to give our slider the correct appearance. In addition, we have to style the pages. Their style is not mandatory for the plugin behavior and it's only purpose is to make the pages look nice. 
 ```css Pages style
 .page {
     width: 300px;
@@ -64,14 +64,14 @@ This CSS is mandatory in order to give our slider the correct appearance. In add
     background-image: url('http://www.lorempixum.com/300/100/?4');
 }
 ```
-Keep in mind that all the pages must have equal width. In our example, page size is 300px-100px. In order to make this example interesting, each page contains a random image.   
-Now all we left to do is writing the plugin behavior.
+Keep in mind that all the pages must have equal width. In our example, page size is 300px width and 100px height. In order to make this example interesting, each page contains a random image.   
+Now all we are left to do is writing the plugin's behavior. 
 
 Slider Behavior
 ---------------
-Out slider behavior is very simple. All we have to do it to listen to mouse down, mouse move and mouse up events, and move the pages accordingly.   
+Our slider behavior is very simple. All we have to do is to bind to mouse down, mouse move and mouse up events, and move the pages accordingly.   
 I will start to write this plugin with prototype, so if you are not familiar with prototype, my <a href="/javascript-prototype" target="_blank">JavaScript Prototype</a> article can be a good reference. Later I will integrate the plugin to jQuery plugin but you can easily integrate it yourself to an AngularJS directive or whatever you like. At the end I will integrate the plugin with <a href="http://eightmedia.github.io/hammer.js" target="_blank">Hammer.js</a> so the plugin will work also with touch gestures.   
-Ok, enough talking. Lets write our plugin. 
+Ok, enough talking. Let's write our plugin. 
 
 ## PagesSlider Initialization and Events Binding ##
 ```javascript PagesSlider initialization and events binding
@@ -117,9 +117,9 @@ $.extend(PagesSlider.prototype, {
     .
 });
 ```
-Our constructor gets the slider element as an input. It sets the slider's width to be equal to the first page width and sets content's width to be equal to the pages widths sum. Since all the pages should have the same width and since slider's overflow CSS property set to hidden, only one page will be visible. The page that will be visible is depending on content's offset relative to slider.   
+Our constructor gets the slider element as an input. It sets the slider's width to be equal to the first page width and sets content's width to be equal to the pages widths sum. Since all the pages should have the same width and since slider's overflow CSS property was set to hidden, only one page will be visible. The page that will be visible is depending on the content's offset relative to slider.   
 ## startDrag(), doDrag(), endDrag() and removeTransition() ##
-At the end of the constructor we bind to 'mousedown', 'mousemove', 'mouseup' and 'transitionend' events. Lets see the implementation of startDrag(), doDrag(), endDrag() and removeTransition():
+At the end of the constructor method we bind to 'mousedown', 'mousemove', 'mouseup' and 'transitionend' events. Let's see the implementation of startDrag(), doDrag(), endDrag() and removeTransition():
 ```javascript startDrag(), doDrag(), endDrag() and removeTransition() implementation
 $.extend(PagesSlider.prototype, {
     .
@@ -162,8 +162,8 @@ $.extend(PagesSlider.prototype, {
     .
 });
 ```
-On startDrag() we enable dragging and stores the current X position in order to calculate dragging delta.   
-On doDrag() we validate that dragging is enabled (mouse is down) and then calculate the delta and transform content strip's position according to the delta.   
+On startDrag() we enable dragging and store the current X position in order to calculate dragging delta.   
+On doDrag() we validate that dragging is enabled (mouse is down) and then calculate the delta and transform the content strip's position according to the delta.   
 On endDrag() we disable dragging and move to the new page (previous, next or center the current page).   
 The endDrag() method uses next(), prev() and current() methods in order to center the relevant page. Those methods are using CSS animation in order to make smoother transitions. Later, when we use mouse for dragging, we don't need that animation. Therefore, after the transition ends, we remove the animation using removeTransition() method.
 
@@ -177,7 +177,7 @@ $.extend(PagesSlider.prototype, {
         var position = this.pages.eq(index).position();
 
         this.content
-            .css('transition', 'all ' + this.options.endDuration + 'ms ease')
+            .css('transition', 'all 400ms ease')
             .css('transform', 'translate3d(' + (-1 * (position.left)) + 'px, 0, 0)');
 
         this.currentIndex = index;
@@ -201,13 +201,13 @@ $.extend(PagesSlider.prototype, {
     }
 });
 ```
-The last methods of the plugin are obvious. goToIndex() is a main method that sets transition to page in a specific index. next(), prev() and current() validates that the new page's index is possible (for example, the index cannot be less then 0) and uses goToIndex() to transition to the new page.   
+The last methods of the plugin are obvious. goToIndex() is a central method that gets a page index and makes a transition to that page. next(), prev() and current() validates that the new page's index is possible (for example, the index cannot be less than 0) and uses goToIndex() to make a transition to the new page.   
    
-Thats it! Pretty simple though.
+That's it! Pretty simple.
 
 Integrate with jQuery Plugin
 ----------------------------
-Now that we have the plugin code, integrating it into jQuery plugin is not a big deal. If you don't familiar with the <a href="/jquery-plugin-pattern" target="_blank">jQuery plugin pattern</a>, I advice you to read <a href="/jquery-plugin-pattern" target="_blank">this post</a>.   
+Now that we have the plugin code, integrating it into jQuery plugin is not a big deal. If you are not familiar with the <a href="/jquery-plugin-pattern" target="_blank">jQuery plugin pattern</a>, I advice you to read <a href="/jquery-plugin-pattern" target="_blank">this post</a>.   
 ```javascript jQuery plugin integration
 (function($) {
     $.fn.pagesSlider = function(options) {
@@ -228,8 +228,8 @@ $(function() {
 ```
 Integrate with Hammer.js
 ------------------------
-Hammer.js is a JavaScript library for multi-touch gestures. Although we don't need multi-touch support, we want our users will be able to slide between pages by touch.
-Lets download Hammer.js jQuery plugin and initialize Hammer in the scope of the slider before calling the plugin:
+Hammer.js is a JavaScript library for multi-touch gestures. Although we don't need multi-touch support, we want our users to be able to slide between pages by touch.
+Let's download Hammer.js jQuery plugin and initialize Hammer in the scope of the slider before calling the plugin:
 ```javascript Initialize Hammer.js
     $.fn.pagesSliderTouch = function(options) {
         this.hammer();
