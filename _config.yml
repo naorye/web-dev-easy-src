@@ -97,3 +97,6 @@ google_analytics_tracking_id: UA-34683362-1
 
 # Facebook Like
 facebook_like: false
+
+# Olark
+olark_id: false
