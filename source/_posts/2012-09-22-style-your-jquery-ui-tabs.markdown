@@ -16,7 +16,7 @@ tags:
 ---
 
 This article will explain and guide you step by step how to style your jQuery-UI tabs and make them look like this:   
-<iframe src="../code/style-your-jquery-ui-tabs/style-tabs.html" width="100%"></iframe>
+<iframe src="/code/style-your-jquery-ui-tabs/style-tabs.html" width="100%"></iframe>
 <!-- more -->
 
 For this example you will need <a href="http://www.jquery.com" target="_blank">jQuery</a> and <a href="http://www.jqueryui.com" target="_blank">jQuery-UI</a> for the <a href="http://jqueryui.com/demos/tabs/" target="_blank">tabs plugin</a>. There are many ways to use the tabs plugin and here I will use one of those methods.
