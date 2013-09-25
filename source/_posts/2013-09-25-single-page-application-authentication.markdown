@@ -12,7 +12,9 @@ tags:
 - JavaScript
 ---
 
-This article will guide you how to add user authentication to your single page application. On the back end side I will use Node.js and on the front end side I will use AngularJS. Although I used specific frameworks, you may apply the same technique for different back end and frond end frameworks (rails, Backbone, etc...).
+This article will guide you how to add user authentication to your single page application. On the back end side I will use Node.js and on the front end side I will use AngularJS. Although I used specific frameworks, you may apply the same technique for different back end and frond end frameworks (rails, Backbone, etc...).   
+The final application will look like this (without the horrible styling):<!--
+--><iframe src="http://spa-auth.herokuapp.com/" width="580px" height="150px" scrolling="no" style="overflow:hidden;margin:0 45px;"></iframe>
 <!-- more -->
 
 At the beginning of this article I will build an application based on <a target="_blank" href="http://nodejs.org">Node.js</a>, <a target="_blank" href="http://expressjs.com/">express</a>, <a target="_blank" href="http://mongoosejs.com/">mongoose</a> and <a target="_blank" href="http://angularjs.org/">AngularJS</a> and then I will add authentication support. At the end we will have single page application that allows users to login and logout from our system. For this article I chose to implement facebook authentication, but changing this later to other 3rd party or local authentication will be trivial.   
