@@ -71,6 +71,9 @@
     left: 0;
     top: 0;
 }
+.style-tabs .ui-tabs-nav li a {
+    outline: none;
+}
 .style-tabs .ui-tabs-nav li.ui-tabs-active a {
     cursor: pointer;
 }
