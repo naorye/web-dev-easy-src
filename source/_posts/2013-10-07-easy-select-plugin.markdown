@@ -9,10 +9,54 @@ categories:
 tags:
 - Plugins
 - JavaScript
+inline-head: |
+    <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="/code/easy-select-plugin/dist/jquery.easy-select.min.js"></script>
+    <link href="/code/easy-select-plugin/dist/easy-select.min.css" rel="stylesheet" type="text/css" />
+    <style>
+    .continent-input, .easy-select {
+        border: 1px solid #ced2d8;
+        background-color: #ffffff;
+        font-size: 14px;
+    }
+    .easy-select {
+        border-top: none;
+    }
+    .easy-select .items {
+    	padding: 0;
+    	margin: 0;
+    	max-height: 133px;
+    }
+    .continent-input, .easy-select .item {
+    	padding: 5px 12px;
+    }
+    .easy-select .item:not(.unselectable):hover {
+    	background-color: #f5fafd;
+    }
+    </style>
 ---
 
 One day I was asked to add a text input component with an ability to choose a value from fixed list. After searching the web, I found several jQuery plugins that was able to solve my needs and much more. But, those components required many dependencies and weighed so much for my simple need. So I decided to write my own plugin. Easy Select requires jQuery only and takes 3kb minified (before gzip):
-<iframe src="/code/easy-select-plugin/index.html" width="100%" height="110px" scrolling="no" style="overflow:hidden;margin-top:-20px;"></iframe>
+<div>
+	Select a continent: <input class="continent-input" type="text" />
+	<script>
+		$(function() {
+			$('.continent-input').easySelect({
+				idKey: 'value',
+				textKey: 'name',
+				items: [
+					{ name: 'Africa', value: 1},
+					{ name: 'Antarctica', value: 2},
+					{ name: 'Asia', value: 3},
+					{ name: 'Australia', value: 4},
+					{ name: 'Europe', value: 5},
+					{ name: 'North America', value: 6},
+					{ name: 'South America', value: 7}
+				]
+			});
+		});
+	</script>
+</div>
 <!-- more -->
 
 See a <a href="/code/easy-select-plugin/demo/index.html" target="_blank">demo</a>.

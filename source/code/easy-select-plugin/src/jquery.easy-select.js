@@ -1,10 +1,3 @@
-/*
- *  jQuery Easy Select - v1.0.0
- *  Easy Select is simply a drop down list integrated with an input field.
- *  http://www.webdeveasy.com/easy-select-plugin
- *
- *  Made by NaorYe
- */
 ;(function ( $, window, document, undefined ) {
 
 	var pluginName = 'easySelect',
@@ -59,11 +52,16 @@
             window.clearTimeout(this._dropDownCloseTimeoutId);
         },
         _positionDropDown: function() {
-            var pos = this.element.offset();
+            var pos = this.element.offset(),
+                body = $('body');
             this.dropDown.css({
                 top: pos.top + this.element.outerHeight(false),
                 left: pos.left,
-                width: this.element.outerWidth(false)
+                width: this.element.outerWidth(false),
+                'margin-left': '-' + body.css('margin-left'),
+                'margin-right': '-' + body.css('margin-right'),
+                'margin-top': '-' + body.css('margin-top'),
+                'margin-bottom': '-' + body.css('margin-bottom')
             });
         },
         _listItems: function() {
