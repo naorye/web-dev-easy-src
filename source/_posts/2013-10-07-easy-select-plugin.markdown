@@ -10,7 +10,6 @@ tags:
 - Plugins
 - JavaScript
 inline-head: |
-    <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="/code/easy-select-plugin/dist/jquery.easy-select.min.js"></script>
     <link href="/code/easy-select-plugin/dist/easy-select.min.css" rel="stylesheet" type="text/css" />
     <style>
