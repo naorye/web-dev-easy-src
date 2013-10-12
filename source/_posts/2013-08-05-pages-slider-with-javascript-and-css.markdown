@@ -12,10 +12,73 @@ tags:
 - jQuery
 - Hammer.JS
 - iPhone
+inline-head: |
+    <style>
+        .example {
+            text-align: center;
+            margin-bottom: 1.5em;
+        }
+        .slider {
+            display: inline-block;
+        }
+        .slider .page {
+            width: 300px;
+            height: 100px;  
+            border-radius: 2px;
+            box-shadow: inset 0 0 6px 0 rgba(0,0,0,0.4);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .slider .page:nth-child(1) {
+            background-image: url('http://www.lorempixum.com/300/100/?1');
+        }
+        .slider .page:nth-child(2) {
+            background-image: url('http://www.lorempixum.com/300/100/?2');
+        }
+        .slider .page:nth-child(3) {
+            background-image: url('http://www.lorempixum.com/300/100/?3');
+        }
+        .slider .page:nth-child(4) {
+            background-image: url('http://www.lorempixum.com/300/100/?4');
+        }
+        .slider .page:nth-child(5) {
+            background-image: url('http://www.lorempixum.com/300/100/?5');
+        }
+        .slider .page:nth-child(6) {
+            background-image: url('http://www.lorempixum.com/300/100/?6');
+        }
+        .slider .page:nth-child(7) {
+            background-image: url('http://www.lorempixum.com/300/100/?7');
+        }
+        .slider .page:nth-child(8) {
+            background-image: url('http://www.lorempixum.com/300/100/?8');
+        }
+    </style>
+    <link rel="stylesheet" href="/code/pages-slider-with-javascript-and-css/slider.css" type="text/css"/>
+    <script type="text/javascript" src="/code/assets/js/hammer.js"></script>
+    <script type="text/javascript" src="/code/pages-slider-with-javascript-and-css/slider-touch.js"></script>
 ---
 
 In this article I will show you how to build a pages slider that looks like those on our smartphones. At the end we will get this:
-<iframe src="/code/pages-slider-with-javascript-and-css/index.html#touch" width="100%" height="122px" scrolling="no" style="overflow:hidden;"></iframe>
+<div class="example">
+    <div class="slider">
+        <div class="content">
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+            <div class="page"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('.slider').pagesSliderTouch();
+    });
+</script>
 <!-- more -->
 
 Slider Markup Structure
