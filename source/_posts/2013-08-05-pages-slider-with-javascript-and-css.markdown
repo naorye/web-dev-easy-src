@@ -61,6 +61,8 @@ inline-head: |
 
 In this article I will show you how to build a pages slider that looks like those on our smartphones. At the end we will get this:
 <div class="example">
+    Slide left to see this in action:
+    <br/> 
     <div class="slider">
         <div class="content">
             <div class="page"></div>
