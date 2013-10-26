@@ -1,9 +1,9 @@
-﻿.facebook-icon { background: url(images/facebook.png) no-repeat; height: 32px; width: 32px; }
-.twitter-icon { background: url(images/twitter.png) no-repeat; height: 32px; width: 32px; }
-.linkedin-icon { background: url(images/linkedin.png) no-repeat; height: 32px; width: 32px; }
-.google-icon { background: url(images/google.png) no-repeat; height: 32px; width: 32px; }
-.wikipedia-icon { background: url(images/wikipedia.png) no-repeat; height: 32px; width: 32px; }
-.picasa-icon { background: url(images/picasa.png) no-repeat; height: 32px; width: 32px; }
+﻿.facebook-icon { background: url(../assets/images/facebook.png) no-repeat; height: 32px; width: 32px; }
+.twitter-icon { background: url(../assets/images/twitter.png) no-repeat; height: 32px; width: 32px; }
+.linkedin-icon { background: url(../assets/images/linkedin.png) no-repeat; height: 32px; width: 32px; }
+.google-icon { background: url(../assets/images/google.png) no-repeat; height: 32px; width: 32px; }
+.wikipedia-icon { background: url(../assets/images/wikipedia.png) no-repeat; height: 32px; width: 32px; }
+.picasa-icon { background: url(../assets/images/picasa.png) no-repeat; height: 32px; width: 32px; }
 
 
 .style-tabs {
