@@ -303,7 +303,7 @@ app
 ```
 Notice that the templates remain the same as they still use instances. Now the application will hold only one book instance with id equals to 1 and any change on it will be reflected on all views that use it.
 
-Summery
+Summary
 -------
 On this article I suggested an architecture for modeling data in AngularJS. First, I presented the default model binding of AngularJS, then I showed how to encapsulate the model's methods and operations so we can share it between different controllers, and finally I explained how to manage our models instances so all the changes will be reflected on all the application views.   
 
