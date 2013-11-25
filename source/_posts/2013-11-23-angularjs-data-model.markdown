@@ -185,7 +185,7 @@ app.factory('booksManager', ['$http', '$q', 'Book', function($http, $q, Book) {
             if (instance) {
                 instance.setData(bookData);
             } else {
-                instance = new Book(messageData);
+                instance = new Book(bookData);
                 this._pool[bookId] = instance;
             }
 
