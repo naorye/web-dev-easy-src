@@ -4,6 +4,7 @@ date: 2012-09-22 17:11:31
 layout: post
 slug: style-your-jquery-ui-tabs
 title: Style Your jQuery-UI Tabs
+spot: jquery
 wordpress_id: 77
 categories:
 - CSS and Style

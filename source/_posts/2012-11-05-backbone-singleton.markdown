@@ -4,6 +4,7 @@ date: 2012-11-05 17:13:36
 layout: post
 slug: backbone-singleton
 title: Backbone Singleton
+spot: backbone.js
 wordpress_id: 153
 categories:
 - Backbone.js

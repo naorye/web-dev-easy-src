@@ -2,6 +2,7 @@
 layout: post
 slug: backbone-cleanup
 title: Backbone Cleanup
+spot: backbone.js
 date: 2013-04-30 21:09
 comments: true
 categories:

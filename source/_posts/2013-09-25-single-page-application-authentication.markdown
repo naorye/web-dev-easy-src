@@ -4,6 +4,7 @@ date: 2013-09-25 20:27:44
 layout: post
 slug: single-page-application-authentication
 title: Single Page Application Authentication
+spot: webdevelopment
 categories:
 - JavaScript
 tags:

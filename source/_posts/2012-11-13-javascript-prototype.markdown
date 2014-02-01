@@ -4,6 +4,7 @@ date: 2012-11-13 08:49:17
 layout: post
 slug: javascript-prototype
 title: JavaScript Prototype
+spot: javascript
 wordpress_id: 159
 categories:
 - JavaScript

@@ -4,6 +4,7 @@ date: 2012-09-14 15:34:42
 layout: post
 slug: cascading-autocompletes-using-jquery-ui
 title: Cascading Autocompletes using jQuery UI
+spot: jquery
 wordpress_id: 8
 categories:
 - JavaScript

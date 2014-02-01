@@ -2,6 +2,7 @@
 layout: post
 slug: object-oriented-programming-with-javascript
 title: Object Oriented Programming with JavaScript
+spot: javascript
 date: 2013-03-18 23:01
 comments: true
 categories:

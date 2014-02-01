@@ -4,6 +4,7 @@ date: 2012-10-02 20:07:46
 layout: post
 slug: jquery-plugin-pattern
 title: jQuery Plugin Pattern
+spot: jquery
 wordpress_id: 128
 categories:
 - JavaScript

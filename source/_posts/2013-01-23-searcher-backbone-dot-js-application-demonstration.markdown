@@ -2,6 +2,7 @@
 layout: post
 slug: searcher-backbone-application-demonstration
 title: Searcher - Backbone application demonstration
+spot: backbone.js
 date: 2013-01-23 19:03
 comments: true
 categories:

@@ -4,6 +4,7 @@ date: 2013-08-05 23:37:31
 layout: post
 slug: pages-slider-with-javascript-and-css
 title: Pages Slider With JavaScript And CSS
+spot: webdevelopment
 categories:
 - CSS
 - JavaScript

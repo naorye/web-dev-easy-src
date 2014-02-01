@@ -3,6 +3,7 @@ layout: post
 styles: [data-table]
 slug: optimize-requirejs-projects
 title: Optimize (Concatenate and Minify) RequireJS Projects
+spot: webdevelopment
 date: 2013-04-19 07:32
 comments: true
 categories:

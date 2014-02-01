@@ -2,6 +2,7 @@
 layout: post
 slug: backbone-cache
 title: Backbone Cache
+spot: backbone.js
 date: 2013-03-12 22:37
 comments: true
 categories:

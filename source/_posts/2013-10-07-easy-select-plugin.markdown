@@ -4,6 +4,7 @@ date: 2013-10-07 17:12:43
 layout: post
 slug: easy-select-plugin
 title: Easy Select Plugin
+spot: jquery
 categories:
 - JavaScript
 tags:

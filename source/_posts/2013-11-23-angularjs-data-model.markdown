@@ -4,6 +4,7 @@ date: 2013-11-23 18:51:33
 layout: post
 slug: angularjs-data-model
 title: AngularJS Data Model
+spot: angularjs
 categories:
 - JavaScript
 - AngularJS
