@@ -146,7 +146,7 @@ app.factory('Book', ['$http', function($http) {
 ```
 This way all book's behavior is encapsulated in Book service. Now, let's use our shiny Book service in our BookController:
 ```javascript BookController that uses Book model
-app.factory('BookController', ['$scope', 'Book', function($scope, Book) {
+app.controller('BookController', ['$scope', 'Book', function($scope, Book) {
     $scope.book = new Book();
     $scope.book.load(1);
 }]);
@@ -291,12 +291,12 @@ app.factory('Book', ['$http', function($http) {
 Our EditableBookController and BooksListController controllers looks like:
 ```javascript EditableBookController and BooksListController that uses booksManager
 app
-    .factory('EditableBookController', ['$scope', 'booksManager', function($scope, booksManager) {
+    .controller('EditableBookController', ['$scope', 'booksManager', function($scope, booksManager) {
         booksManager.getBook(1).then(function(book) {
             $scope.book = book
         });
     }])
-    .factory('BooksListController', ['$scope', 'booksManager', function($scope, booksManager) {
+    .controller('BooksListController', ['$scope', 'booksManager', function($scope, booksManager) {
         booksManager.loadAllBooks().then(function(books) {
             $scope.books = books
         });
