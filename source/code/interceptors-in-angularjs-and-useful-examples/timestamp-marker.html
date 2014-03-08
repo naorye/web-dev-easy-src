@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+	<head> 
+		<title>Timestamp Marker Example</title>
+       	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+       	<style>
+       		body, textarea {
+       			font-family: 'Lucida Grande';
+				font-size: 13px;
+				color: black;
+       		}
+       		.result {
+       			color: blue;
+       		}
+       		.code-block {
+       			margin-top: 20px;
+       		}
+       		.code-block textarea {
+		       	border: none;
+				background-color: white;
+				resize: none;
+				width: 100%;
+				height: 800px;
+			}
+       	</style>
+	</head>
+
+	<body ng-app="timestamp-marker-example">
+		<div ng-controller="ExampleController" class="result">
+			The request took <span ng-bind="requestTime"></span> seconds.
+		</div>
+
+		<div class="code-block">
+			Code:
+			<textarea disabled="true">
+<!doctype html>
+<html>
+	<head> 
+		<title>Timestamp Marker Example</title>
+       	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+	</head>
+
+	<body ng-app="timestamp-marker-example">
+		<div ng-controller="ExampleController">
+			The request took <span ng-bind="requestTime"></span> seconds.
+		</div>
+
+		<script type="text/javascript">
+		var module = angular.module('timestamp-marker-example', []);
+		module.factory('timestampMarker', [function() {
+		    var timestampMarker = {
+		        request: function(config) {
+		            config.requestTimestamp = new Date().getTime();
+		            return config;
+		        },
+		        response: function(response) {
+		            response.config.responseTimestamp = new Date().getTime();
+		            return response;
+		        }
+		    };
+		    return timestampMarker;
+		}]);
+		module.config(['$httpProvider', function($httpProvider) {
+		    $httpProvider.interceptors.push('timestampMarker'); 
+		}]);
+
+		module.controller('ExampleController', ['$scope', '$http', function($scope, $http) {
+			$scope.requestTime = '[waiting]';
+			$http.get('https://api.github.com/users/naorye/repos').then(function(response) {
+			    var time = response.config.responseTimestamp - response.config.requestTimestamp;
+			    $scope.requestTime = (time / 1000);
+			});
+		}]);
+		</script>
+	</body>
+</html>
+			</textarea>
+		</div>
+
+		<script type="text/javascript">
+		var module = angular.module('timestamp-marker-example', []);
+		module.factory('timestampMarker', [function() {
+		    var timestampMarker = {
+		        request: function(config) {
+		            config.requestTimestamp = new Date().getTime();
+		            return config;
+		        },
+		        response: function(response) {
+		            response.config.responseTimestamp = new Date().getTime();
+		            return response;
+		        }
+		    };
+		    return timestampMarker;
+		}]);
+		module.config(['$httpProvider', function($httpProvider) {
+		    $httpProvider.interceptors.push('timestampMarker'); 
+		}]);
+
+		module.controller('ExampleController', ['$scope', '$http', function($scope, $http) {
+			$scope.requestTime = '[waiting]';
+			$http.get('https://api.github.com/users/naorye/repos').then(function(response) {
+			    var time = response.config.responseTimestamp - response.config.requestTimestamp;
+			    $scope.requestTime = (time / 1000);
+			});
+		}]);
+		</script>
+	</body>
+</html>
+

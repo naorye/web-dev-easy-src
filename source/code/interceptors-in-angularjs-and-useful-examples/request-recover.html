@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+	<head> 
+		<title>Request Recover Example</title>
+       	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+       	<style>
+       		body, textarea {
+       			font-family: 'Lucida Grande';
+				font-size: 13px;
+				color: black;
+       		}
+       		.result {
+       			color: blue;
+       		}
+       		.code-block {
+       			margin-top: 20px;
+       		}
+       		.code-block textarea {
+		       	border: none;
+				background-color: white;
+				resize: none;
+				width: 100%;
+				height: 800px;
+			}
+       	</style>
+	</head>
+
+	<body ng-app="request-recover-example">
+		<div ng-controller="ExampleController" class="result">
+			Request <span ng-bind="requestStatus"></span>.
+			<span ng-if="isRecovered">(Request was recovered)</span>
+		</div>
+
+		<div class="code-block">
+			Code:
+			<textarea disabled="true">
+<!doctype html>
+<html>
+	<head> 
+		<title>Request Recover Example</title>
+       	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+	</head>
+
+	<body ng-app="request-recover-example">
+		<div ng-controller="ExampleController" class="result">
+			Request <span ng-bind="requestStatus"></span>.
+			<span ng-if="isRecovered">(Request was recovered)</span>
+		</div>
+
+		<script type="text/javascript">
+		var module = angular.module('request-recover-example', []);
+		module.factory('requestRejector', ['$q', function($q) {
+		    var requestRejector = {
+		        request: function(config) {
+		            return $q.reject('requestRejector');
+		        }
+		    };
+		    return requestRejector;
+		}]);
+		module.factory('requestRecoverer', ['$q', '$rootScope', function($q, $rootScope) {
+		    var requestRecoverer = {
+		        requestError: function(rejectReason) {
+		        	if (rejectReason === 'requestRejector') {
+		        		$rootScope.isRecovered = true;
+		        		// Recover the request
+		        		return {
+		        			transformRequest: [],
+		        			transformResponse: [],
+		        			method: 'GET',
+		        			url: 'https://api.github.com/users/naorye/repos',
+		        			headers: {
+		        				Accept: 'application/json, text/plain, */*'
+		        			}
+		        		};
+		        	} else {
+		        		return $q.reject(rejectReason);
+		        	}
+		        }
+		    };
+		    return requestRecoverer;
+		}]);
+		module.config(['$httpProvider', function($httpProvider) {
+		    $httpProvider.interceptors.push('requestRejector');
+		    // Removing 'requestRecoverer' will result to failed requesr 
+		    $httpProvider.interceptors.push('requestRecoverer'); 
+		}]);
+
+		module.controller('ExampleController', ['$scope', '$http', function($scope, $http) {
+			$scope.requestTime = '[waiting]';
+			$http.get('https://api.github.com/users/naorye/repos').then(function() {
+			    $scope.requestStatus = 'success';
+			}, function(rejectReason) {
+				$scope.requestStatus = 'failure due to ' + rejectReason;
+			});
+		}]);
+		</script>
+	</body>
+</html>
+			</textarea>
+		</div>
+
+		<script type="text/javascript">
+		var module = angular.module('request-recover-example', []);
+		module.factory('requestRejector', ['$q', function($q) {
+		    var requestRejector = {
+		        request: function(config) {
+		            return $q.reject('requestRejector');
+		        }
+		    };
+		    return requestRejector;
+		}]);
+		module.factory('requestRecoverer', ['$q', '$rootScope', function($q, $rootScope) {
+		    var requestRecoverer = {
+		        requestError: function(rejectReason) {
+		        	if (rejectReason === 'requestRejector') {
+		        		$rootScope.isRecovered = true;
+		        		// Recover the request
+		        		return {
+		        			transformRequest: [],
+		        			transformResponse: [],
+		        			method: 'GET',
+		        			url: 'https://api.github.com/users/naorye/repos',
+		        			headers: {
+		        				Accept: 'application/json, text/plain, */*'
+		        			}
+		        		};
+		        	} else {
+		        		return $q.reject(rejectReason);
+		        	}
+		        }
+		    };
+		    return requestRecoverer;
+		}]);
+		module.config(['$httpProvider', function($httpProvider) {
+		    $httpProvider.interceptors.push('requestRejector');
+		    // Removing 'requestRecoverer' will result to failed request
+		    $httpProvider.interceptors.push('requestRecoverer'); 
+		}]);
+
+		module.controller('ExampleController', ['$scope', '$http', function($scope, $http) {
+			$scope.requestTime = '[waiting]';
+			$http.get('https://api.github.com/users/naorye/repos').then(function() {
+			    $scope.requestStatus = 'success';
+			}, function(rejectReason) {
+				$scope.requestStatus = 'failure due to ' + rejectReason;
+			});
+		}]);
+		</script>
+	</body>
+</html>
+
