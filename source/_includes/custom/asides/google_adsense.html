@@ -1,12 +1,11 @@
 {% if site.google_ad_side_bar_enabled %}
-	<script type="text/javascript"><!--
-	google_ad_client = "{{ site.google_ad_side_bar_client }}";
-	google_ad_slot = "{{ site.google_ad_side_bar_slot }}";
-	google_ad_width = "{{ site.google_ad_side_bar_width }}";
-	google_ad_height = "{{ site.google_ad_side_bar_height }}";
-	//-->
-	</script>
-	<script type="text/javascript"
-	src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- google_ad_side_bar -->
+	<ins class="adsbygoogle"
+	     style="display:inline-block;width:{{ site.google_ad_side_bar_width }}px;height:{{ site.google_ad_side_bar_height }}px"
+	     data-ad-client="{{ site.google_ad_side_bar_client }}"
+	     data-ad-slot="{{ site.google_ad_side_bar_slot }}"></ins>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
 	</script>
 {% endif %}
