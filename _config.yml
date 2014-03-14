@@ -108,6 +108,10 @@ google_ad_side_bar_slot: 3682307157
 google_ad_side_bar_width: 120
 google_ad_side_bar_height: 600
 
+# Google AdSense - Under Post Title
+google_ad_under_post_title_enabled: true
+google_ad_under_post_title_client: ca-pub-6953090373480388
+google_ad_under_post_title_slot: 3659905550
 
 
 
