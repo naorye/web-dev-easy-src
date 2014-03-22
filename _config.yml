@@ -58,13 +58,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 # ----------------------- #
 
 # Github repositories
-github_user:
+github_user: naorye
 github_repo_count: 0
 github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: naorye
 twitter_tweet_count: 4
 twitter_show_replies: false
 twitter_follow_button: false
@@ -114,7 +114,9 @@ google_ad_under_post_title_client: ca-pub-6953090373480388
 google_ad_under_post_title_slot: 3659905550
 
 
-
+# semantic options
+cover: /assets/logo.png # the site cover, example: /images/teracy_logo.png
+semantic_fb_admins: 787248988 # for facebook insights. Can also use semantic_fb_app_id
 
 
 
