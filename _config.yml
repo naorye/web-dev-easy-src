@@ -59,10 +59,14 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 
 # Github repositories
 github_user: naorye
-github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
-
+github_show_repos: true              # Whether to show repositories block on side panel
+github_repo_count: 0                 # How many repositories to show, 0 for all
+github_show_profile_link: true       # Whether to show profile link in repositories block
+github_skip_forks: true              # Whether to skip forked repositories
+github_repos_list: angular-ny-logger, easy-select, spa-auth, BackboneCache, BackboneCleanup
+                                     # A list of repositories to display: 
+                                     #       empty - display all the repositories
+                                     #       list (a, b, c) - display only a, b, c repositories 
 # Twitter
 twitter_user: naorye
 twitter_tweet_count: 4
