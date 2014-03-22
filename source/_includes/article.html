@@ -3,7 +3,7 @@
     {% if index %}
       <h1 class="entry-title"><a href="{{ root_url }}{{ post.url }}">{% if site.titlecase %}{{ post.title | titlecase }}{% else %}{{ post.title }}{% endif %}</a></h1>
     {% else %}
-      <h1 class="entry-title">{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
+      <h1 itemprop="name" class="entry-title">{% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}</h1>
     {% endif %}
     {% unless page.meta == false %}
       <p class="meta">
@@ -25,7 +25,6 @@
   {% endif %}
 {% else %}
   {% if site.google_ad_under_post_title_enabled %}
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <!-- google_ad_under_post_title -->
     <ins class="adsbygoogle"
          style="display:block"
@@ -35,8 +34,8 @@
     <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-    <div class="entry-content after-ad">{{ content }}</div>
+    <div itemprop="articleBody" class="entry-content after-ad">{{ content }}</div>
   {% else %}
-    <div class="entry-content">{{ content }}</div>
+    <div itemprop="articleBody" class="entry-content">{{ content }}</div>
   {% endif %}
 {% endif %}

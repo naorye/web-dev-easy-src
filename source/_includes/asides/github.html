@@ -9,7 +9,7 @@
     <a href="https://github.com/{{site.github_user}}">@{{site.github_user}}</a> on GitHub
     {% endif %}
     <script type="text/javascript">
-      $.domReady(function(){
+      $(function(){
           if (!window.jXHR){
               var jxhr = document.createElement('script');
               jxhr.type = 'text/javascript';
@@ -17,7 +17,6 @@
               var s = document.getElementsByTagName('script')[0];
               s.parentNode.insertBefore(jxhr, s);
           }
-
           github.showRepos({
               user: '{{site.github_user}}',
               count: {{site.github_repo_count}},
