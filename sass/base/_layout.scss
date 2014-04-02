@@ -28,19 +28,19 @@ $header-padding-bottom: 1.5em !default;
   padding: 0 $pad-medium 1px;
   background-color: lighten($sidebar-bg, 2);
   border-top: 1px solid lighten($sidebar-border, 4);
-  section {
-    &.odd, &.even { float: left; width: 48%; }
-    &.odd { margin-left: 0; }
-    &.even { margin-left: 4%; }
-  }
-  &.thirds section {
-    width: 30%;
-    margin-left: 5%;
-    &.first {
-      margin-left: 0;
-      clear: both;
-    }
-  }
+  // section {
+  //   &.odd, &.even { float: left; width: 48%; }
+  //   &.odd { margin-left: 0; }
+  //   &.even { margin-left: 4%; }
+  // }
+  // &.thirds section {
+  //   width: 30%;
+  //   margin-left: 5%;
+  //   &.first {
+  //     margin-left: 0;
+  //     clear: both;
+  //   }
+  // }
 }
 
 body {
