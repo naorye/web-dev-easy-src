@@ -72,8 +72,6 @@ twitter_tweet_button: false
 google_plus_one: false
 google_plus_one_size: medium
 
-
-
 # Disqus Comments
 disqus_short_name: webdeveasy
 disqus_show_comment_count: false
