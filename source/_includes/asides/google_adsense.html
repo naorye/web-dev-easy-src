@@ -1,0 +1,12 @@
+{% if site.google_ad_side_bar_enabled %}
+    <section>
+		<!-- google_ad_side_bar -->
+		<ins class="adsbygoogle"
+		     style="display:inline-block;width:{{ site.google_ad_side_bar_width }}px;height:{{ site.google_ad_side_bar_height }}px"
+		     data-ad-client="{{ site.google_ad_side_bar_client }}"
+		     data-ad-slot="{{ site.google_ad_side_bar_slot }}"></ins>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	<section>
+{% endif %}

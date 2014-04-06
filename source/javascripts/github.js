@@ -9,6 +9,16 @@ var github = (function($) {
     }
 
     return {
+        /*
+         * Renders UI that shows github repositories. Gets the following options:
+         * user: github's username
+         * count: how many repositories to show, 0 or undefined for all
+         * skipForks: whether to skip forked repositories
+         * list: a list of repositories to display
+         *         empty - display all the repositories
+         *         list (a, b, c) - display only a, b and c repositories 
+         * target: selector of container for the rendered output
+         */                           
         showRepos: function(options){
             var list = (options.list || '').split(',')
                 .map(function(repoName) {
@@ -30,7 +40,7 @@ var github = (function($) {
                     }
 
                     for (var i = 0; i < response.data.length; i++) {
-                        if (options.skip_forks && response.data[i].fork) {
+                        if (options.skipForks && response.data[i].fork) {
                             continue;
                         }
                         if (list.length > 0 && list.indexOf(response.data[i].name) === -1) {

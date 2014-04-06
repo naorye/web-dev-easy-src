@@ -45,7 +45,7 @@ titlecase: true       # Converts page and post titles to titlecase
 
 # list each of the sidebar modules you want to include, in the order you want them to appear.
 # To add custom asides, create files in /source/_includes/custom/asides/ and add them to the list like 'custom/asides/custom_aside_name.html'
-default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.html, asides/delicious.html, asides/pinboard.html, asides/googleplus.html, custom/asides/google_adsense.html]
+default_asides: [asides/recent_posts.html, asides/github.html, asides/google_adsense.html]
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
@@ -59,14 +59,7 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/twitter.ht
 
 # Github repositories
 github_user: naorye
-github_show_repos: true              # Whether to show repositories block on side panel
-github_repo_count: 0                 # How many repositories to show, 0 for all
-github_show_profile_link: true       # Whether to show profile link in repositories block
-github_skip_forks: true              # Whether to skip forked repositories
-github_repos_list: angular-ny-logger, easy-select, spa-auth, BackboneCache, BackboneCleanup
-                                     # A list of repositories to display: 
-                                     #       empty - display all the repositories
-                                     #       list (a, b, c) - display only a, b, c repositories 
+
 # Twitter
 twitter_user: naorye
 twitter_tweet_count: 4
@@ -78,19 +71,6 @@ twitter_tweet_button: false
 # Google +1
 google_plus_one: false
 google_plus_one_size: medium
-
-# Google Plus Profile
-# Hidden: No visible button, just add author information to search results
-googleplus_user:
-googleplus_hidden: false
-
-# Pinboard
-pinboard_user:
-pinboard_count: 3
-
-# Delicious
-delicious_user:
-delicious_count: 3
 
 # Disqus Comments
 disqus_short_name: webdeveasy
