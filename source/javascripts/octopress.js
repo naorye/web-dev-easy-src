@@ -37,17 +37,6 @@
         }
     }
 
-    function testFeatures() {
-        var features = ['maskImage'];
-        $(features).map(function(index, feature) {
-            if (Modernizr.testAllProps(feature)) {
-                $('html').addClass(feature);
-            } else {
-                $('html').addClass('no-' + feature);
-            }
-        });
-    }
-
     function addCodeLineNumbers() {
         if (navigator.appName === 'Microsoft Internet Explorer') {
             return;
@@ -82,7 +71,6 @@
     }
 
     $(function() {
-        testFeatures();
         wrapFlashVideos();
         addCodeLineNumbers();
         getNav();
