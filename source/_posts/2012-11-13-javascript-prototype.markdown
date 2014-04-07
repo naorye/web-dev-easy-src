@@ -119,7 +119,7 @@ You can also use combine approaches whereby methods that uses private local cons
     function animal() {
     	var runAlready = false;
     	this.run = function() {
-    		if (!runAlready) {}
+    		if (!runAlready) {
     			console.log("I am running!");
     		} else {
     			console.log("I am already running!");
