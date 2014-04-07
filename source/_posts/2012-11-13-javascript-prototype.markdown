@@ -101,7 +101,7 @@ The main advantage of this approach is that you can make a use of local variable
     	var runAlready = false;
     	this.color = "Green";
     	this.run = function() {
-    		if (!runAlready) {}
+    		if (!runAlready) {
     			console.log("I am running!");
     		} else {
     			console.log("I am already running!");
