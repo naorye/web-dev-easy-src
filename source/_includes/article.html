@@ -26,14 +26,8 @@
 {% else %}
   {% if site.google_ad_under_post_title_enabled %}
     <!-- google_ad_under_post_title -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="{{ site.google_ad_under_post_title_client }}"
-         data-ad-slot="{{ site.google_ad_under_post_title_slot }}"
-         data-ad-format="auto"></ins>
-    <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="{{ site.google_ad_under_post_title_client }}" data-ad-slot="{{ site.google_ad_under_post_title_slot }}" data-ad-format="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     <div itemprop="articleBody" class="entry-content after-ad">{{ content }}</div>
   {% else %}
     <div itemprop="articleBody" class="entry-content">{{ content }}</div>
