@@ -1,9 +1,9 @@
 ---
 comments: true
-date: 2014-05-24 22:45:45
+date: 2014-05-28 22:45:45
 layout: post
 slug: back-button-behavior-on-a-page-with-an-iframe
-title: Back Button Behavior On a Page With an iframe
+title: Back Button Behavior on a Page With an iframe
 spot: angularjs
 categories:
 - JavaScript
