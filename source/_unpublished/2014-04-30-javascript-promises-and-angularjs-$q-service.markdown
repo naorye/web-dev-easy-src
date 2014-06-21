@@ -15,7 +15,7 @@ tags:
 <!-- 
 As some of you might know, currently I am Spot.IM's Front End team leader. We are developing a social network of conversations. The chat bubble you can find in many websites around the web is the fruit of me and my team's hard work. -->
 
-A promise / deferred is a very simple and powerful tool for asynchronous development. The CommonJS wiki lists <a href="http://wiki.commonjs.org/wiki/Promises" target="_blank">several implementation proposals for the promise pattern</a>. AngularJS has it's own promise implementation that was inspired by <a href="https://github.com/kriskowal/q" target="_blank">Kris Kowal's Q</a> implementation. In this article I'll introduce promises and write about AngularJS $q promise service.
+A promise / deferred is a very simple and powerful tool for asynchronous development. The CommonJS wiki lists <a href="http://wiki.commonjs.org/wiki/Promises" target="_blank">several implementation proposals for the promise pattern</a>. AngularJS has it's own promise implementation that was inspired by <a href="https://github.com/kriskowal/q" target="_blank">Kris Kowal's Q</a> implementation. In this article I'll introduce promises and provide useful tutorial about how to work with promises using AngularJS $q promise service.
 <!-- more -->
 
 ## Promise / Deferred Motivation
@@ -45,7 +45,7 @@ xhr.onreadystatechange = function() {
 };
 xhr.send();
 ```
-There are many other examples of asynchronicity in JavaScript. Working with callbacks gets complicated when there is a need to synchronize several asynchronic operations.   
+There are many other examples of asynchronicity in JavaScript. Working with callbacks gets complicated when there is a need to synchronize several asynchronous operations.   
 ### Sequentially Executing (Pyramid Of Doom)
 Assume we have `N` asynchronous methods: `async1(success, failure)`, `async2(success, failure)`, ..., `asyncN(success, failure)` and we want to execute them sequentially, one after another, upon success. Each method gets success and failure callbacks so the solution will be:
 ```javascript execute asynchronous methods sequentially
@@ -67,7 +67,7 @@ async1(function() {
 ```
 And here we get the famous <a href="http://javascriptjabber.com/001-jsj-asynchronous-programming/" target="_blank">callback pyramid of doom</a>. Although there are nicer ways to write this code (separate that waterfall into functions for example), this is really hard to maintain and read.
 ### Parallel Executing
-Assume we have `N` asynchronous methods: `async1(success, failure)`, `async2(success, failure)`, ..., `asyncN(success, failure)` and we want to execute them parallel and at the end of all, alert a message. Each method gets success and failure callbacks so the solution will be:
+Assume we have `N` asynchronous methods: `async1(success, failure)`, `async2(success, failure)`, ..., `asyncN(success, failure)` and we want to execute them parallel and *at the end of all*, alert a message. Each method gets success and failure callbacks so the solution will be:
 ```javascript execute asynchronous methods parallel
 var counter = N;
 
@@ -86,19 +86,89 @@ asyncN(success);
 ```
 We declared a counter with initial value equals to the total asynchronous methods to execute. When each method is done, we decrease the counter by one and check whether this was the last execution. This solution is not simple for implementation or maintain, especially when each asynchronous method passes a result value to `success()`. In such case we will have to keep the results of each execution.   
 
-In both examples, at the time of execution of an asynchronic operation, we had to specify how it will be handled using a success callback. In other words, when we use callbacks, the asynchronic operation needs a reference to its continuation, and this continuation might not be its business. This can lead to tightly coupled modules and services which makes hard life when reusing or testing code. 
+In both examples, at the time of execution of an asynchronic operation, we had to specify how it will be handled using a success callback. In other words, when we use callbacks, the asynchronic operation needs a reference to its continuation, and this continuation might not be its business. This can lead to tightly coupled modules and services which makes hard life when reusing or testing code.   
 
 ## What is a Promise / Deferred?
-A deferred represents the result of an asynchronic operation. It exposes an interface that can be used for signaling the state and the result of the operation it represents. It also provides a way to get the associated promise instance. A promise provides an interface for interacting with it's related deferred, and so, allows for interested parties to get access to the state and the result of the deferred operation.   
+A deferred represents the result of an asynchronic operation. It exposes an interface that can be used for signaling the state and the result of the operation it represents. It also provides a way to get the associated promise instance.   
+A promise provides an interface for interacting with it's related deferred, and so, allows for interested parties to get access to the state and the result of the deferred operation.   
 When creating a deferred, it's state is `pending` and it doesn't have any result. When we `reject()` or `resolve()` the deferred, it changes it's state with or without a result. Still, we can get the associated promise immediately after creating a deferred and even assign interactions with it's future result. Those interactions will occur only after the deferred rejected or resolved.   
 
-When it comes to coupling, by using promises we can easily create an asynchronic operation before even decide how it's going to resolve. This is why coupling is looser. An asynchronic operation doesn't have to know how it continues, it only has to signal when it is ready.   
+When it comes to coupling, by using promises we can easily create an asynchronic operation before even decide what's going next after resolve. This is why coupling is looser. An asynchronic operation doesn't have to know how it continues, it only has to signal when it is ready.   
 While deferred has methods for changing the state of an operation, a promise exposes only methods needed to handle and figure out the state, but not methods that can change the state. This prevents from external code to interfere the progress or the state of an operation.    
 There are several implementations for promises in different languages (JavaScript, JAVA, C++, Python and more) and frameworks (NodeJS, jQuery for JavaScript). Sometimes it called `Future`. AngularJS has a promise implementation under the `$q` service.   
-Now I'd like to show some examples.
 
-## Promise / Deferred examples using $q service
-I'll present important methods of promises and deferrers along with practical examples. This section will use AngularJS $q service.
+## Promise / Deferred tutorial using $q service
+Here is the time to present some important methods of promises and deferrers along with practical tutorial. As said before, there are several implementations of promises, and so, different implementations may have different usage. This section will use <a href="https://docs.angularjs.org/api/ng/service/$q" target="_blank">AngularJS implementation of promise</a> - the $q service.   
+
+Let's say we have an amazing application with an amazing registration form. In order to register, a user has to supply his current geolocation coordinates, his photo and his required username. To perform the registration action, our backend architecture requires us the following:   
+    1. Provide geolocation longitude and latitude.
+    2. Upload the user photo to our photos storage server and provide a url of it.
+    3. Reserve the username upon username selection and provide username reservation id.   
+For supporting that, let's create the following simple functions (I decided to make this separation of functions in order to explain better):   
+    1. Function that retrieves the current geolocation coordinates.
+    2. Function that reads a local photo file and return it's content.
+    3. Function that gets photo content and uploads it to our photos storage.
+    4. Function that reserves a username and returns the reservation id.   
+Look carefully and see that those methods are asynchronous and this is where promises come in.
+```javascript Basic functions implementation
+function getGeolocationCoordinates() {
+    var deferred = $q.defer();
+    navigator.geolocation.getCurrentPosition(
+        function(position) { deferred.resolve(position.coords); },
+        function(error) { deferred.reject(error); }
+    );
+    return deferred.promise;
+}
+
+function readPhoto(photoPath) {
+    var deferred = $q.defer();
+    var reader = new FileReader();
+    reader.onload = function () { deferred.resolve(reader.result); };
+    reader.onerror = function () { deferred.reject(reader.result); };
+    reader.readAsDataURL(photoPath);
+    return deferred.promise;
+}
+
+// Since everyone knows jQuery, I'll use $.ajax instead of $http service
+function uploadPhoto(photoData) {
+    var deferred = $q.defer();
+    $.ajax({
+        method: 'POST',
+        url: '<endpoint for out photos storage upload action>',
+        data: photoData
+    })
+    .success(function(response){
+        deferred.resolve(response.url);
+    })
+    .error(function(response) {
+        deferred.reject(response.error);
+    });
+    return deferred.promise;
+}
+
+// Now I'll use the $http service
+function reserveUsername(username) {
+    var deferred = $q.defer();
+    $http.post('<endpoint for username reservation action>', { username: username})
+        .then(
+            function(response) { deferred.resolve(response.reservationId); },
+            function(response) { deferred.reject(response.error); }
+        );
+    return deferred.promise;
+}
+
+```
+// each method explanation
+For each method we will create a new deferred that will be resolved upon success or rejected upon failure. Each function will return a promise.
+
+
+
+registration form
+1. fetch geolocation
+2. read file and then upload the image
+3. reserve username
+4. credit card
+
 ### Creating a deferred - We want to create an asynchronic function that supports promises. First, we have to create a deferred.
 ```javascript Creating a deferred
 function asyncFunc() {
