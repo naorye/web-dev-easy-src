@@ -130,7 +130,7 @@ app.factory('Book', ['$http', function($http) {
             $http.put('ourserver/books/' + bookId, this);
         },
         getImageUrl: function(width, height) {
-            return 'our/image/service/' + this.book.id + '/width/height';
+            return 'our/image/service/' + this.book.id + '/' + width + '/' + height;
         },
         isAvailable: function() {
             if (!this.book.stores || this.book.stores.length === 0) {
