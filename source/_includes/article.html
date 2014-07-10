@@ -25,11 +25,9 @@
   {% endif %}
 {% else %}
   {% if site.google_ad_under_post_title_enabled %}
-    <iframe src="http://rcm-na.amazon-adsystem.com/e/cm?t=web08c-20&o=1&p=48&l=ur1&category=electronicsrot&f=ifr&linkID=HBGO7KDGS4HRV6ST" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
-
     <!-- google_ad_under_post_title -->
-    <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="{{ site.google_ad_under_post_title_client }}" data-ad-slot="{{ site.google_ad_under_post_title_slot }}" data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script> -->
+    <ins class="adsbygoogle" style="display:block" data-ad-client="{{ site.google_ad_under_post_title_client }}" data-ad-slot="{{ site.google_ad_under_post_title_slot }}" data-ad-format="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     <div itemprop="articleBody" class="entry-content after-ad">{{ content }}</div>
   {% else %}
     <div itemprop="articleBody" class="entry-content">{{ content }}</div>
