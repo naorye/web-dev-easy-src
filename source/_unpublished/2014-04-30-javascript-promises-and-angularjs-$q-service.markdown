@@ -104,13 +104,9 @@ Let's say we have an amazing application with an amazing registration form. In o
     1. Provide geolocation longitude and latitude.
     2. Upload the user photo to our photos storage server and provide a url of it.
     3. Reserve the username upon username selection and provide username reservation id.   
-For supporting that, let's create the following simple functions (I decided to make this separation of functions in order to explain better):   
-    1. Function that retrieves the current geolocation coordinates.
-    2. Function that reads a local photo file and return it's content.
-    3. Function that gets photo content and uploads it to our photos storage.
-    4. Function that reserves a username and returns the reservation id.   
-Look carefully and see that those methods are asynchronous and this is where promises come in.
-```javascript Basic functions implementation
+For supporting that, let's create the following simple functions (I decided to make this separation of functions in order to explain better). Look carefully and see that those methods are asynchronous and this is where promises come in:   
+### Function that retrieves the current geolocation coordinates
+```javascript getGeolocationCoordinates()
 function getGeolocationCoordinates() {
     var deferred = $q.defer();
     navigator.geolocation.getCurrentPosition(
@@ -119,47 +115,56 @@ function getGeolocationCoordinates() {
     );
     return deferred.promise;
 }
-
-function readPhoto(photoPath) {
+```
+`getGeolocationCoordinates()`declares a deferred and then ask the browser for the current position. The success and failure callbacks provided to `navigator.geolocation.getCurrentPosition()` resolve and reject the deferred accordingly with the result. At the end the deferred's promise is returned.
+### Function that reads a local file and return it's content
+```javascript readFile()
+function readFile(fileBlob) {
     var deferred = $q.defer();
     var reader = new FileReader();
     reader.onload = function () { deferred.resolve(reader.result); };
     reader.onerror = function () { deferred.reject(reader.result); };
-    reader.readAsDataURL(photoPath);
+    try {
+        reader.readAsDataURL(fileBlob);
+    } catch (e) {
+        deferred.reject(e);
+    }
     return deferred.promise;
 }
-
-// Since everyone knows jQuery, I'll use $.ajax instead of $http service
-function uploadPhoto(photoData) {
-    var deferred = $q.defer();
-    $.ajax({
+```
+`readFile()` gets a file blob (the output of `&lt;input type="file"&gt;` field) and uses <a href="#" target="_blank">FileReader</a> to read it's content. Before reading the data and returning a promise, `readFile()` assigned `onload` and `onerror` callbacks that resolve and reject the deferred accordingly with the result. Notice that I decided to wrap `reader.readAsDataURL(fileBlob);` with `try {} catch() {}` block in order to handle run time exceptions.
+### Function that gets file content and uploads it to files storage
+```javascript uploadFile()
+function uploadFile(fileData) {
+    return $.ajax({
         method: 'POST',
-        url: '<endpoint for out photos storage upload action>',
-        data: photoData
-    })
-    .success(function(response){
-        deferred.resolve(response.url);
-    })
-    .error(function(response) {
-        deferred.reject(response.error);
+        url: '<endpoint for our files storage upload action>',
+        data: fileData
     });
-    return deferred.promise;
 }
-
-// Now I'll use the $http service
+```
+Since everyone knows jQuery, I decided to use <a href="#" target="_blank">`$.ajax`</a> in `uploadFile()`. `$.ajax` returns a promise, which is exactly what we need. But, keep in mind that this promise is a other implementation to promises than `$q`. Later we will see how to use other promises implementations with AngularJS.
+### Function that reserves a username and returns the reservation id
+```javascript reserveUsername()
 function reserveUsername(username) {
-    var deferred = $q.defer();
-    $http.post('<endpoint for username reservation action>', { username: username})
-        .then(
-            function(response) { deferred.resolve(response.reservationId); },
-            function(response) { deferred.reject(response.error); }
-        );
-    return deferred.promise;
+    return $http.post('<endpoint for username reservation action>', {
+        username: username
+    }).$promise;
 }
+```
+Here I used <a href="#" target="_blank">`$http`</a> service of AngularJS. `$http.post()` returns an object that contains a reference to a promise which indicates the post status. This promise created by the familiar `$q` service inside `$http.post()` and this will be the return value.
+
+### Assembling all together
+Up to here we have learned how to create a deferred, how to reject and resolve it and how to get an access to it's promise. Now that we have all the helper methods, it is the time to see how we interact with a promise.   
+Before that I want to show you our markup, review it and make sure you understand all the bindings:   
+```html registration form
 
 ```
-// each method explanation
-For each method we will create a new deferred that will be resolved upon success or rejected upon failure. Each function will return a promise.
+
+
+
+
+
 
 
 
