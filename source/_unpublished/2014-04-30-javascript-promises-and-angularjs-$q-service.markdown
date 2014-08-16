@@ -12,14 +12,12 @@ tags:
 - JavaScript
 - AngularJS
 ---
-<!-- 
-As some of you might know, currently I am Spot.IM's Front End team leader. We are developing a social network of conversations. The chat bubble you can find in many websites around the web is the fruit of me and my team's hard work. -->
 
 A promise / deferred is a very simple and powerful tool for asynchronous development. The CommonJS wiki lists <a href="http://wiki.commonjs.org/wiki/Promises" target="_blank">several implementation proposals for the promise pattern</a>. AngularJS has it's own promise implementation that was inspired by <a href="https://github.com/kriskowal/q" target="_blank">Kris Kowal's Q</a> implementation. In this article I'll introduce promises and provide useful tutorial about how to work with promises using AngularJS $q promise service.
 <!-- more -->
 
 ## Promise / Deferred Motivation
-In JavaScript, asynchronous methods usually use a callbacks in order to inform a success or a failure state. The Geolocation api requires success and failure callbacks in order to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition" target="_blank">get the current location</a>:
+In JavaScript, asynchronous methods usually use a callbacks in order to inform a success or a failure state. The Geolocation api, for example, requires success and failure callbacks in order to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation.getCurrentPosition" target="_blank">get the current location</a>:
 ```javascript Use callbacks in Geolocation api
 function success(position) {
   var coords = position.coords;
@@ -32,7 +30,7 @@ function error(err) {
 
 navigator.geolocation.getCurrentPosition(success, error);
 ```
-XMLHttpRequest (<a href="https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest" target="_blank">used to perform ajax calls</a>) has `onreadystatechange` callback property that is called whenever the `readyState` attribute changes:
+Another example is XMLHttpRequest (<a href="https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest" target="_blank">used to perform ajax calls</a>). It has `onreadystatechange` callback property that is called whenever the `readyState` attribute changes:
 ```javascript Callback use in XHR
 var xhr = new window.XMLHttpRequest();
 xhr.open('GET', 'http://www.webdeveasy.com', true);
@@ -56,7 +54,7 @@ async1(function() {
                 ....
                     ....
                         ....
-                           asyncN(null, null); 
+                           asyncN(null, null);
                         ....
                     ....
                 ....
@@ -65,7 +63,7 @@ async1(function() {
     }, null);
 }, null);
 ```
-And here we get the famous <a href="http://javascriptjabber.com/001-jsj-asynchronous-programming/" target="_blank">callback pyramid of doom</a>. Although there are nicer ways to write this code (separate that waterfall into functions for example), this is really hard to maintain and read.
+And here we get the famous <a href="http://javascriptjabber.com/001-jsj-asynchronous-programming/" target="_blank">callback pyramid of doom</a>. Although there are nicer ways to write this code (separate that waterfall into functions for example), this is really hard to read and maintain.
 ### Parallel Executing
 Assume we have `N` asynchronous methods: `async1(success, failure)`, `async2(success, failure)`, ..., `asyncN(success, failure)` and we want to execute them parallel and *at the end of all*, alert a message. Each method gets success and failure callbacks so the solution will be:
 ```javascript execute asynchronous methods parallel
@@ -88,42 +86,330 @@ We declared a counter with initial value equals to the total asynchronous method
 
 In both examples, at the time of execution of an asynchronic operation, we had to specify how it will be handled using a success callback. In other words, when we use callbacks, the asynchronic operation needs a reference to its continuation, and this continuation might not be its business. This can lead to tightly coupled modules and services which makes hard life when reusing or testing code.   
 
-## What is a Promise / Deferred?
+## What is Deferred / Promise?
 A deferred represents the result of an asynchronic operation. It exposes an interface that can be used for signaling the state and the result of the operation it represents. It also provides a way to get the associated promise instance.   
 A promise provides an interface for interacting with it's related deferred, and so, allows for interested parties to get access to the state and the result of the deferred operation.   
 When creating a deferred, it's state is `pending` and it doesn't have any result. When we `reject()` or `resolve()` the deferred, it changes it's state with or without a result. Still, we can get the associated promise immediately after creating a deferred and even assign interactions with it's future result. Those interactions will occur only after the deferred rejected or resolved.   
 
 When it comes to coupling, by using promises we can easily create an asynchronic operation before even decide what's going next after resolve. This is why coupling is looser. An asynchronic operation doesn't have to know how it continues, it only has to signal when it is ready.   
-While deferred has methods for changing the state of an operation, a promise exposes only methods needed to handle and figure out the state, but not methods that can change the state. This prevents from external code to interfere the progress or the state of an operation.    
-There are several implementations for promises in different languages (JavaScript, JAVA, C++, Python and more) and frameworks (NodeJS, jQuery for JavaScript). Sometimes it called `Future`. AngularJS has a promise implementation under the `$q` service.   
 
-## Promise / Deferred tutorial using $q service
-Here is the time to present some important methods of promises and deferrers along with practical tutorial. As said before, there are several implementations of promises, and so, different implementations may have different usage. This section will use <a href="https://docs.angularjs.org/api/ng/service/$q" target="_blank">AngularJS implementation of promise</a> - the $q service.   
+While deferred has methods for changing the state of an operation, a promise exposes only methods needed to handle and figure out the state, but not methods that can change the state. This is why return a promise and not a deferred in a function is a good practice. This prevents from external code to interfere the progress or the state of an operation.    
 
-Let's say we have an amazing application with an amazing registration form. In order to register, a user has to supply his current geolocation coordinates, his photo and his required username. To perform the registration action, our backend architecture requires us the following:   
-    1. Provide geolocation longitude and latitude.
+There are several implementations of promises in different languages (JavaScript, JAVA, C++, Python and more) and frameworks (NodeJS, jQuery for JavaScript). Sometimes it called `Future`. AngularJS has a promise implementation under the `$q` service.   
+
+## How to use Deferrers and Promises
+After understanding the motivation, now is the time to see how to use Deferrers and Promises. As said before, there are several implementations of promises, and so, different implementations may have different ways of usage. This section will use <a href="https://docs.angularjs.org/api/ng/service/$q" target="_blank">the AngularJS implementation of promise</a> - the $q service. Still, if you use a different implementation of promises, don't worry, most of the methods I'll describe here are equal for all implementations and if not, there are always an equivalent method.   
+
+### Basic usage
+First things first, let's create a deferred!
+```javascript Creating a deferred
+var myFirstDeferred = $q.defer();
+```
+Simple as can be, `myFirstDeferred` holds a deferred that can be resolved or rejected whenever an asynchronous operation is done. Assume we have an asynchronous method `async(success, failure)` that gets success and failure callbacks as parameters. When `async` is done or we want to resolve or reject `myFirstDeferred` with the result (data or error):   
+```javascript Resolve and reject a deferred
+async(function(data) {
+    myFirstDeferred.resolve(data);
+}, function(error) {
+    myFirstDeferred.reject(error);
+});
+```
+Since `$q`'s resolve and reject methods doesn't depend on context in order to work, we can simply write:
+```javascript Resolve and reject a deferred
+async(myFirstDeferred.resolve, myFirstDeferred.reject);
+```
+Now, taking the promise out of this deferred and assign operations upon success or failure is pretty easy:
+```javascript Using the promise
+var myFirstPromise = myFirstDeferred.promise;
+
+myFirstPromise
+    .then(function(data) {
+        console.log('My first promise succeeded', data);
+    }, function(error) {
+        console.log('My first promise failed', error);
+    });
+```
+Keep on mind that we can assign the success and failure operations right after creating the deferred (even before calling to `async()`) and that we can assign how many operations we like:
+```javascript Using the promise several times
+var anotherDeferred = $q.defer();
+anotherDeferred.promise;
+    .then(function(data) {
+        console.log('This success method was assigned BEFORE calling to async()', data);
+    }, function(error) {
+        console.log('This failure method was assigned BEFORE calling to async()', error);
+    });
+
+async(anotherDeferred.resolve, anotherDeferred.reject);
+
+anotherDeferred.promise;
+    .then(function(data) {
+        console.log('This ANOTHER success method was assigned AFTER calling to async()', data);
+    }, function(error) {
+        console.log('This ANOTHER failure method was assigned AFTER calling to async()', error);
+    });
+```
+If `async()` success, both success methods will occur. The same is for failure.   
+A good approach is to wrap asynchronous operations with a function that returns a promise. This way the caller will be able to assign success and failure callbacks the way he like, but will not be able to interfere the deferred state:
+```javascript Wrap asynchronous operation
+function getData() {
+    var deferred = $q.defer();
+    async(deferred.resolve, deferred.reject);
+    return deferred.promise;
+}
+...
+... // Later, in a different file
+var dataPromise = getData()
+...
+...
+... // Much later, at the bottom of that file :)
+dataPromise
+    .then(function(data) {
+        console.log('Success!', data);
+    }, function(error) {
+        console.log('Failure...', error);
+    });
+```
+Up to here, when we used promises, we assigned both success and failure callbacks. But, there is also a way to assign only success or only failure functions:
+```javascript Assign only success or failure callback to promise
+promise.then(function() {
+    console.log('Assign only success callback to promise');
+});
+
+promise.catch(function() {
+    console.log('Assign only failure callback to promise');
+    // This is a shorthand for `promise.then(null, errorCallback)`
+});
+```
+Passing only success callback to `promise.then()` will assign only success callback and using `promise.catch()` will assign only failure callback. `catch()` is actually a shorthand for `promise.then(null, errorCallback)`.   
+In case we want to perform the same operation both on fulfillment or rejection of a promise, we can use `promise.finally()`:
+```javascript Using finally
+promise.finally(function() {
+    console.log('Assign only success function to promise');
+});
+```
+This is equivalent to:
+```javascript
+var callback = function() {
+    console.log('Assign only success function to promise');
+};
+promise.then(callback, callback);
+```
+
+### Chaining values and promises
+Assume we have an asynchronous function `async()` that returns a promise. I have this interesting block of code:
+```javascript values chaining
+var promise1 = async();
+var promise2 = promise1.then(function(x) {
+    return x+1;
+});
+```
+As you can understand from that code, `promise1.then()` returns another promise, and I named it `promise2`. When `promise1` resolved with a value `x`, the success callback executes and returns `x+1`. At this point `promise2` is resolved with `x+1`.   
+Another similar example:   
+```javascript values chaining
+var promise2 = async().then(function(data) {
+    console.log(data);
+    ... // Do something with data
+    // Returns nothing!
+});
+```
+Here, when the promise returned from `async()` resolved, the success callback does it's job and then `promise2` resolved with no data (`undefined`).   
+As you can see, ***promises chain the values and always resolved after the callback occurs with the returned value***.   
+In order to demonstrate it, here is a silly example that uses promises (there is no really a need to use promises here):
+```javascript values chaining example
+// Let's imagine this is really an asynchronous function
+function async(value) {
+    var deferred = $q.defer();
+    var asyncCalculation = value / 2;
+    deferred.resolve(asyncCalculation);
+    return deferred.promise;
+}
+
+var promise = async(8)
+    .then(function(x) {
+        return x+1;
+    })
+    .then(function(x) {
+        return x*2;
+    })
+    .then(function(x) {
+        return x-1;
+    });
+
+promise.then(function(x) {
+    console.log(x);
+});
+```
+This promises chain starts with calling to `async(8)` which fulfill the promise with the value `4`. This value passes through all the success callbacks and so the value `9` will be logged (`(8 / 2 + 1) * 2 - 1`).   
+   
+What happens if we chain another promise (and not a value)? Assume we have two asynchronous functions, `async1()` and `async2()`, each returns a promise. Let's see the following:
+```javascript promises chaining
+var promise = async1()
+    .then(function(data) {
+        // Assume async2() needs the response of async1() in order to work
+        var async2Promise = async2(data);
+        return async2Promise;
+});
+```
+Here, unlike the previous example, the success callback performs another asynchronous operation and returns a promise. The value returned from `async1().then()` is a promise as expected (`promise`), but it can be resolved or rejected according to `async2Promise` and with it's resolve result or reject reason. Let's demonstrate it (again, the usage of promises is not mandatory and for demonstration purposes only):
+```javascript promises chaining example
+// Let's imagine those are really asynchronous functions
+function async1(value) {
+    var deferred = $q.defer();
+    var asyncCalculation = value * 2;
+    deferred.resolve(asyncCalculation);
+    return deferred.promise;
+}
+function async2(value) {
+    var deferred = $q.defer();
+    var asyncCalculation = value + 1;
+    deferred.resolve(asyncCalculation);
+    return deferred.promise;
+}
+
+var promise = async1(10)
+    .then(function(x) {
+        return async2(x);
+    });
+
+promise.then(function(x) {
+    console.log(x);
+});
+```
+First, we call `async1(10)` which on it's turn fulfills the promise on and resolve it with the value `20`. Then the success callback executed and `async(20)` returns a promise that will be fulfilled with the value `21`. Therefore `promise` will be resolved with the value `21` and this what will be logged.   
+A nice thing is that I can write the same example but with more readable code:
+```javascript promises chaining - readable
+function logValue(value) {
+    console.log(value);
+}
+
+async1(10)
+    .then(async2)
+    .then(logValue);
+```
+It is easy to see that first we call to `async1()`, then we call to `async2()` and at the end we call to `logValue()`. Naming functions with proper names will also make it easy to understand.   
+All the previous examples with promises chaining were pretty optimistic since they all succeed. But in case a promise will be rejected for any reason, the chained promise will also rejected:
+```javascript promises chaining example
+// Let's imagine those are really asynchronous functions
+function async1(value) {
+    var deferred = $q.defer();
+    var asyncCalculation = value * 2;
+    deferred.resolve(asyncCalculation);
+    return deferred.promise;
+}
+function async2(value) {
+    var deferred = $q.defer();
+    deferred.reject('rejected for demonstration!');
+    return deferred.promise;
+}
+
+var promise = async1(10)
+    .then(function(x) {
+        return async2(x);
+    });
+
+promise.then(
+    function(x) { console.log(x); },
+    function(reason) { console.log('Error: ' + reason); });
+```
+As you can understand from this example, `Error: rejected for demonstration!` will be logged eventually.
+***Promises also chain promises and resolved or rejected according to the chained promise, with it's resolve result or reject reason***.    
+
+### Useful methods
+`$q` has several helper methods that can be a great help when using promises. As I said before, other promises implementations have the same methods, probably with a different name.   
+   
+Sometimes we need to return a rejected promise. Instead of creating a new promise and rejecting it, we can use `$q.reject(reason)`. `$q.reject(reason)` returns a rejected promise with `reason`. Example:
+```javascript $q.reject(reason) example
+var promise = async().then(function(value) {
+        if (isSatisfied(value)) {
+            return value;
+        } else {
+            return $q.reject('value is not satisfied');
+        }
+    }, function(reason) {
+        if (canRecovered(reason)) {
+            return newPromiseOrValue;
+        } else {
+            return $q.reject(reason);
+        }
+    });
+```
+If `async()` resolved with a satisfied value, the value is chained and thus `promise` resolved with it. If the value is not satisfied a rejected promise is chained and `promise` will be rejected.
+If `async()` rejected with a reason that can be recovered, the new value or promise is chained. If the reason cannot be recovered, a rejected promise is chained and eventually `promise` will be rejected.
+
+Similar to `$q.reject(reason)`, sometimes we need to return a resolved promise with a value. Instead of creating a new promise and resolving it, we can use `$q.when(value)`.
+```javascript using $q.when(value)
+function getDataFromBackend(query) {
+    var data = searchInCache(query);
+    if (data) {
+        return $q.when(data);
+    } else {
+        return makeAsyncBackendCall(query);
+    }
+}
+```
+In this example I wrote a function that should retrieve a data from my backend. But, before performing the backend call, the function searches the data in the cache. Since I want this function to return a promise, in case the data was found in the cache, the function returns `$q.when(data)`.   
+A cool thing with `$q.when(value)` is that if `value` is a 3rd party thenable promise (like jQuery's Deferred), this method can wrap it and convert it into a $q promise. This way we can easily use other promises implementations with AngularJS.   
+`$.ajax()` of jQuery, for example, returns such thenable promise. The following converts it into angular $q promise:
+```javascript using $q.when(jQueryPromise)
+var jQueryPromise = $.ajax({
+    ...
+    ...
+    ...
+});
+var angularPromise = $q.when(jQueryPromise);
+```
+
+Sometimes we need to perform several asynchronous operations, no matter the order, and to get notified when they all done. `$q.all(promisesArr)` can help us with that. Assume we have `N` methods that return promises: `async1(), ..., asyncN()`. The following code will log `done` only when all operations resolved successfully:
+```javascript $q.all(promisesArr) example
+var allPromise = $q.all([
+    async1(),
+    async2(),
+    ....
+    ....
+    asyncN()
+]);
+
+allPromise.then(function(values) {
+    var value1 = values[0],
+        value2 = values[1],
+        ....
+        ....
+        valueN = values[N];
+
+        console.log('done');
+});
+```
+`$q.all(promisesArr)` returns a promise that is resolved only when all the promises in `promisesArr` resolved.
+Keep in mind that if any of the promises will be rejected, the resulting promise will be rejected either.
+---------------------------
+## Promises tutorial using $q service
+Here is the time to present some important methods of promises and deferrers along with practical tutorial.
+
+Let's say we have an amazing application with an amazing registration form. In order to register, a user has to supply his current geolocation coordinates, his photo and his required username. To perform the registration action, our backend architecture requires the following from the frontend:   
+    1. Provide geolocation longitude and latitude if possible.
     2. Upload the user photo to our photos storage server and provide a url of it.
     3. Reserve the username upon username selection and provide username reservation id.   
 For supporting that, let's create the following simple functions (I decided to make this separation of functions in order to explain better). Look carefully and see that those methods are asynchronous and this is where promises come in:   
+
 ### Function that retrieves the current geolocation coordinates
 ```javascript getGeolocationCoordinates()
 function getGeolocationCoordinates() {
     var deferred = $q.defer();
     navigator.geolocation.getCurrentPosition(
         function(position) { deferred.resolve(position.coords); },
-        function(error) { deferred.reject(error); }
+        function(error) { deferred.resolve(null); }
     );
     return deferred.promise;
 }
 ```
-`getGeolocationCoordinates()`declares a deferred and then ask the browser for the current position. The success and failure callbacks provided to `navigator.geolocation.getCurrentPosition()` resolve and reject the deferred accordingly with the result. At the end the deferred's promise is returned.
+`getGeolocationCoordinates()` declares a deferred and then ask the browser for the current position. Since the geolocation coordinates are not mandatory, both the success and failure callbacks that are provided to `navigator.geolocation.getCurrentPosition()` are resolve the deferred with some result. In case of failure the result will be `null`. At the end the deferred's promise is returned.   
+
 ### Function that reads a local file and return it's content
 ```javascript readFile()
 function readFile(fileBlob) {
     var deferred = $q.defer();
     var reader = new FileReader();
     reader.onload = function () { deferred.resolve(reader.result); };
-    reader.onerror = function () { deferred.reject(reader.result); };
+    reader.onerror = function () { deferred.reject(); };
     try {
         reader.readAsDataURL(fileBlob);
     } catch (e) {
@@ -132,18 +418,23 @@ function readFile(fileBlob) {
     return deferred.promise;
 }
 ```
-`readFile()` gets a file blob (the output of `&lt;input type="file"&gt;` field) and uses <a href="#" target="_blank">FileReader</a> to read it's content. Before reading the data and returning a promise, `readFile()` assigned `onload` and `onerror` callbacks that resolve and reject the deferred accordingly with the result. Notice that I decided to wrap `reader.readAsDataURL(fileBlob);` with `try {} catch() {}` block in order to handle run time exceptions.
+`readFile()` gets a file blob (the output of `&lt;input type="file"&gt;` field) and uses <a href="#" target="_blank">FileReader</a> to read it's content. Before reading the data and returning a promise, `readFile()` assigned `onload` and `onerror` callbacks that resolve and reject the deferred accordingly with the result. Notice that I decided to wrap `reader.readAsDataURL(fileBlob);` with `try {} catch() {}` block in order to handle run time exceptions. In case of an exception, the deferred is rejected.   
+
 ### Function that gets file content and uploads it to files storage
 ```javascript uploadFile()
 function uploadFile(fileData) {
-    return $.ajax({
+    var jQueryPromise = $.ajax({
         method: 'POST',
         url: '<endpoint for our files storage upload action>',
         data: fileData
     });
+
+    return $q.when(jQueryPromise);
 }
 ```
-Since everyone knows jQuery, I decided to use <a href="#" target="_blank">`$.ajax`</a> in `uploadFile()`. `$.ajax` returns a promise, which is exactly what we need. But, keep in mind that this promise is a other implementation to promises than `$q`. Later we will see how to use other promises implementations with AngularJS.
+Since everyone knows jQuery, I decided to use <a href="#" target="_blank">`$.ajax`</a> in `uploadFile()`. `$.ajax` returns a promise, which is actually what we need. But, keep in mind that this promise is a jQuery's promise implementation and not `$q`. Fortunately, we have <a href="https://docs.angularjs.org/api/ng/service/$q#when" target="_blank">`$q.when(value)`</a> method. This method can wrap a 3rd party thenable promise into a $q promise. This way we can easily use other promises implementations with AngularJS.   
+At the end, `uploadFile()` uses `$q.when(value)` and returns a promise.
+
 ### Function that reserves a username and returns the reservation id
 ```javascript reserveUsername()
 function reserveUsername(username) {
@@ -152,14 +443,25 @@ function reserveUsername(username) {
     }).$promise;
 }
 ```
-Here I used <a href="#" target="_blank">`$http`</a> service of AngularJS. `$http.post()` returns an object that contains a reference to a promise which indicates the post status. This promise created by the familiar `$q` service inside `$http.post()` and this will be the return value.
+Here I used <a href="#" target="_blank">`$http`</a> service of AngularJS. `$http.post()` returns an object that contains a reference to a promise which indicates the post status. This promise created by the familiar `$q` service inside `$http.post()` and this will be the return value.   
+   
+Up to here we have learned how to create a deferred, how to reject and resolve it, how to get an access to it's promise and how to transform 3rd party thenable promise to AngularJS promise.   
+Now that we have all the methods needed for registration, we can proceed with the registration implementation. Here we will see also how to interact with a promise.   
 
-### Assembling all together
-Up to here we have learned how to create a deferred, how to reject and resolve it and how to get an access to it's promise. Now that we have all the helper methods, it is the time to see how we interact with a promise.   
-Before that I want to show you our markup, review it and make sure you understand all the bindings:   
-```html registration form
-
+### Longitude and Latitude
+Getting the longitude and the latitude is pretty easy. Here is a markup of two input elements. Notice that they are both bound to model and has a readonly attribute (I don't really want the user to enter values for longitude and latitude, the only way to set values on this field is by getting the geolocation from the device).
+```html longitude the latitude inputs
+<div>
+    Longitude
+    <input type="text" readonly="readonly" ng-model="data.coords.longitude" placeholder="No Longitude" />
+</div>
+<div>
+    Latitude
+    <input type="text" readonly="readonly" ng-model="data.coords.latitude" placeholder="No Latitude" />
+</div>
 ```
+
+
 
 
 
