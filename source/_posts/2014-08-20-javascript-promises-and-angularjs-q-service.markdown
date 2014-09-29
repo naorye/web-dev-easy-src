@@ -435,7 +435,7 @@ function readFile(fileBlob) {
     return deferred.promise;
 }
 ```
-`readFile()` gets a file blob (the output of `<input type="file">` field) and uses <a href="#" target="_blank">FileReader</a> to read it's content. Before reading the data and returning a promise, `readFile()` assigned `onload` and `onerror` callbacks that resolve and reject the deferred accordingly with the result. Notice that I decided to wrap `reader.readAsDataURL(fileBlob);` with `try {} catch() {}` block in order to handle run time exceptions. In case of an exception, the deferred is rejected.   
+`readFile()` gets a file blob (the output of `<input type="file">` field) and uses <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader" target="_blank">FileReader</a> to read it's content. Before reading the data and returning a promise, `readFile()` assigned `onload` and `onerror` callbacks that resolve and reject the deferred accordingly with the result. Notice that I decided to wrap `reader.readAsDataURL(fileBlob);` with `try {} catch() {}` block in order to handle run time exceptions. In case of an exception, the deferred is rejected.   
 
 ### Function that gets file content and uploads it to files storage
 ```javascript uploadFile()
@@ -860,7 +860,7 @@ Here are two additional links:
 <ul>
     <li><a target="_blank" href="/code/javascript-promises-and-angularjs-q-service/index.html">The tutorial application in action</a></li>
     <li><a target="_blank" href="https://github.com/naorye/angulajs-q-service-tutorial">The tutorial source on GitHub</a></li>
-    <li><a target="_blank" href="https://github.com/naorye/angulajs-q-service-tutorial/archive/master.zip">The tutorial source zip file</a></li>
+    <li><a href="https://github.com/naorye/angulajs-q-service-tutorial/archive/master.zip">The tutorial source zip file</a></li>
 </ul>
 I really hope you liked this article!
 Good luck,
