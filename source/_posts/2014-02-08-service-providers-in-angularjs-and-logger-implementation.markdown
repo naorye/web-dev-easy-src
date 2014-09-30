@@ -232,9 +232,9 @@ Logger.prototype = {
 ```
 As you can see, Logger is enabled by default. In order to turn it off we just need to do:
 ```javascript Turn off logger
-module.config(['Logger', function(Logger) {
-    Logger.enabled(false);
-}); 
+module.config(['LoggerProvider', function(LoggerProvider) {
+    LoggerProvider.enabled(false);
+});
 ```
 Thats all!
 
