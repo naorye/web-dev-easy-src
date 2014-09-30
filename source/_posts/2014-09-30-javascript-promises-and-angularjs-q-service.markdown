@@ -1,6 +1,6 @@
 ---
 comments: true
-date: 2014-08-20 09:42:02
+date: 2014-09-30 09:42:02
 layout: post
 slug: javascript-promises-and-angularjs-q-service
 title: JavaScript Promises and AngularJS $q Service
