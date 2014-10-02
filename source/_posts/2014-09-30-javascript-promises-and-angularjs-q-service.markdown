@@ -456,10 +456,10 @@ Since everyone knows jQuery, I decided to use <a href="#" target="_blank">`$.aja
 function reserveUsername(username) {
     return $http.post('<endpoint for username reservation action>', {
         username: username
-    }).$promise;
+    });
 }
 ```
-Here I used <a href="#" target="_blank">`$http`</a> service of AngularJS. `$http.post()` returns an object that contains a reference to a promise which indicates the post status. This promise is created by `$q` service inside `$http.post()` and this will be the return value.   
+Here I used <a href="#" target="_blank">`$http`</a> service of AngularJS. `$http.post()` returns a promise which indicates the post status. This promise is created by `$q` service inside `$http.post()` and this will be the return value.   
 
 Now that we have all the methods needed for registration, let's wrap them in a service called `appService` (you can see the complete `app-service.js` at the end of this tutorial).   
 
@@ -503,7 +503,7 @@ var reservationPromise = $q.reject('No username reservation had made');
 $scope.reserveUsername = function() {
     var newUsername = $scope.username;
     reservationPromise = appService.reserveUsername(newUsername)
-        .then(function setUsernameReservation() {
+        .then(function setUsernameReservation(reservation) {
             $scope.reservation = reservation;
         })
         .catch(function setUsernameError() {
@@ -620,7 +620,7 @@ window.module.factory('appService', ['jquery', '$http', '$q', function($, $http,
     function reserveUsername(username) {
         // return $http.post('<endpoint for username reservation action>', {
         //     username: username
-        // }).$promise;
+        // });
         var deferred = $q.defer();
         setTimeout(function() {
             if (reserveCount > 0 && reserveCount % 3 === 0) {
@@ -753,7 +753,7 @@ window.module.controller('appController', ['$scope', '$q', 'appService', functio
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript">
-        window.angular || document.write('<script src="/scripts/libs/jquery.js"><\/script>');
+        window.jQuery || document.write('<script src="/scripts/libs/jquery.js"><\/script>');
     </script>
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
@@ -856,7 +856,7 @@ After reading this article you should know by now that working with callbacks mi
     <li><code>var promise = $q.when(valueOrPromise);</code> - wraps value or other implementation of thenable promise with AngularJS promise</li>
     <li><code>var promise = $q.all(promisesArr);</code> - returns a promise that will be resolved only when all promises in `promisesArr` are resolved</li>
 </ul>
-Here are two additional links:
+Here are three additional links:
 <ul>
     <li><a target="_blank" href="/code/javascript-promises-and-angularjs-q-service/index.html">The tutorial application in action</a></li>
     <li><a target="_blank" href="https://github.com/naorye/angulajs-q-service-tutorial">The tutorial source on GitHub</a></li>
